@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void main(void) {
-	Devices1();
+int main(void) {
+	
+	Devices();
+
+	return EXIT_FAILURE;
 }
