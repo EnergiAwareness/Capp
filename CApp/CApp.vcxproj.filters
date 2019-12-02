@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Interface">
       <UniqueIdentifier>{4e53c124-9bbe-40f8-8bb1-d8329b013d11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{9a24277c-b123-48e4-a08d-c257161a077a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Misc">
+      <UniqueIdentifier>{df82bbd5-83a9-412d-9831-a792c95eb906}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CApp.c">
@@ -45,8 +51,11 @@
     <ClCompile Include="SaveToFile.c">
       <Filter>Source Files\DAL</Filter>
     </ClCompile>
-    <ClCompile Include="RETURN_ERRORS.c">
+    <ClCompile Include="ReturnErrors.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdinHelper.c">
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,8 +65,11 @@
     <ClInclude Include="Devices.h">
       <Filter>Header Files\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="RETURN_ERRORS.h">
+    <ClInclude Include="ReturnErrors.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdinHelper.h">
+      <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

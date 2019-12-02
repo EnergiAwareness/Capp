@@ -1,40 +1,89 @@
 #include "Devices.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "stdinHelper.h"
 
-enum MenuOptions
+enum states
 {
-	PRICE = 0,
+	MAIN_MENU,//Must be first!
+	PRICE,
 	DEVICES,
+	ABOUT,
 	EXIT,
-	TOTAL, //Must always be the last!
+	TOTAL, //Must be last!
 };
 
-void main(void) {
-	int selectionIdx = -1;
-	/*char menuName[TOTAL];
-	menuName[EXIT] = "Exit program";
-	menuName[PRICE] = "Price";
-	menuName[DEVICES] = "Devices";*/
+int main(void) {
+	int state = MAIN_MENU, i = 0, run = 1, returnValue = EXIT_FAILURE;
+	char *menuName[TOTAL - 1] = {
+	"Price",
+	"Devices",
+	"About",
+	"Exit program",
+	};
 
 
+	printf("*****************************************************\n");
+	printf("************Welcome to Energy advisor 1.0************\n");
+	printf("*****************************************************\n");
+	printf("*****************************************************\n\n");
 
-	printf("Welcome to Energy advisor 1.0");
-
-	switch (selectionIdx) {
-	case PRICE:
+	while (run)
 	{
-		break;
+		switch (state) {
+		case MAIN_MENU:
+		{
+			printf("Please enter a number to select following:\n");
+			for (i = 1; i < TOTAL; i++)
+			{
+				printf("%d. %s\n", i, menuName[i - 1]);
+			}
+			if (scanf("%i", &state) == 0)
+			{
+				state = MAIN_MENU;
+				ClearStdinBuffer();
+				printf("Entered value was not a number\n");
+			}
+			break;
+		}
+		case PRICE:
+		{
+			state = MAIN_MENU;
+			break;
+		}
+		case DEVICES:
+		{
+			state = MAIN_MENU;
+			break;
+		}
+		case ABOUT:
+		{
+			printf("This program was developed by group A400B for first semester group project P1 2019.\n");
+			printf("The project is about Energy price awareness\n");
+			printf("Created by:\n"
+				"Martin Lindblom Hansen\n"
+				"Rune Bohnstedt\n"
+				"Kim Helstrup Pedersen\n"
+				"Micklas Skov\n"
+				"Claes Mortensen\n"
+				"Lars Christensen\n"
+				"Frederik L. Jakobsen\n\n");
+			state = MAIN_MENU;
+			break;
+		}
+		case EXIT:
+		{
+			run = 0;
+			returnValue = EXIT_SUCCESS;
+			break;
+		}
+		default:
+		{
+			printf("Invaild selection\n");
+			state = MAIN_MENU;
+			break;
+		}
+		}
 	}
-	case DEVICES:
-	{
-		break;
-	}
-	default:
-	{
-		break;
-	}
-	}
-
-	return EXIT_FAILURE;
+	return returnValue;
 }
