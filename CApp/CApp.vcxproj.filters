@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\BLL">
+      <UniqueIdentifier>{8413d006-331c-4eca-95f7-18648d501176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DAL">
+      <UniqueIdentifier>{3f0e0d15-4c01-40c2-8bcd-07c3c6f5e019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interface">
+      <UniqueIdentifier>{4e53c124-9bbe-40f8-8bb1-d8329b013d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BLL">
+      <UniqueIdentifier>{10777681-941c-42b9-b225-b87b4e35971d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DAL">
+      <UniqueIdentifier>{9761dff2-0b64-4615-a860-b610634c0c27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interface">
+      <UniqueIdentifier>{f0a83d3b-9c57-4d18-99cc-7b0111237b9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CApp.cpp">
