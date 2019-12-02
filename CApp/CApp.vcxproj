@@ -152,6 +152,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CApp.c" />
+    <ClCompile Include="Devices.c" />
+    <ClCompile Include="Price.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Devices.h" />
+    <ClInclude Include="Price.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

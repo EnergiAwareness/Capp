@@ -19,9 +19,6 @@
     <Filter Include="Header Files\DAL">
       <UniqueIdentifier>{3f0e0d15-4c01-40c2-8bcd-07c3c6f5e019}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Interface">
-      <UniqueIdentifier>{4e53c124-9bbe-40f8-8bb1-d8329b013d11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\BLL">
       <UniqueIdentifier>{10777681-941c-42b9-b225-b87b4e35971d}</UniqueIdentifier>
     </Filter>
@@ -31,10 +28,27 @@
     <Filter Include="Source Files\Interface">
       <UniqueIdentifier>{f0a83d3b-9c57-4d18-99cc-7b0111237b9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Interface">
+      <UniqueIdentifier>{4e53c124-9bbe-40f8-8bb1-d8329b013d11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CApp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Devices.c">
+      <Filter>Source Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Price.c">
+      <Filter>Source Files\Interface</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Price.h">
+      <Filter>Header Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Devices.h">
+      <Filter>Header Files\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
