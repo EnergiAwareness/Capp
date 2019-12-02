@@ -58,9 +58,9 @@ int main(void) {
 		}
 		case ABOUT:
 		{
-			printf("This program was developed by group A400B for first semester group project P1 2019.\n");
-			printf("The project is about Energy price awareness\n");
-			printf("Created by:\n"
+			printf("This program was developed by group A400B for first semester group project P1 2019.\n"
+				"The project is about Energy price awareness\n"
+				"Created by:\n"
 				"Martin Lindblom Hansen\n"
 				"Rune Bohnstedt\n"
 				"Kim Helstrup Pedersen\n"
