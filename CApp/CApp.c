@@ -36,4 +36,5 @@ void main(void) {
 	}
 	}
 
+	return EXIT_FAILURE;
 }

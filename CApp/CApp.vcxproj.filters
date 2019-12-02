@@ -42,6 +42,12 @@
     <ClCompile Include="Price.c">
       <Filter>Source Files\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="SaveToFile.c">
+      <Filter>Source Files\DAL</Filter>
+    </ClCompile>
+    <ClCompile Include="RETURN_ERRORS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
@@ -49,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Devices.h">
       <Filter>Header Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="RETURN_ERRORS.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

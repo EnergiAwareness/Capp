@@ -153,10 +153,13 @@
   <ItemGroup>
     <ClCompile Include="CApp.c" />
     <ClCompile Include="Devices.c" />
+    <ClCompile Include="RETURN_ERRORS.c" />
     <ClCompile Include="Price.c" />
+    <ClCompile Include="SaveToFile.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Devices.h" />
+    <ClInclude Include="RETURN_ERRORS.h" />
     <ClInclude Include="Price.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
