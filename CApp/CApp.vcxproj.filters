@@ -42,6 +42,9 @@
     <ClCompile Include="Price.c">
       <Filter>Source Files\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Register.c">
+      <Filter>Source Files\BLL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Devices.h">
       <Filter>Header Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Register.h">
+      <Filter>Header Files\BLL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
