@@ -51,10 +51,13 @@
     <ClCompile Include="Register.c">
       <Filter>Source Files\BLL</Filter>
     </ClCompile>
-    <ClCompile Include="ReturnErrors.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stdinHelper.c">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="TextStrings.c">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ReturnErrors.c">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +71,13 @@
     <ClInclude Include="Register.h">
       <Filter>Header Files\BLL</Filter>
     </ClInclude>
-    <ClInclude Include="ReturnErrors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdinHelper.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnErrors.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="TextStrings.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>

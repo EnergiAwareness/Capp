@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stdinHelper.h"
+#include "TextStrings.h"
 
 enum states
 {
@@ -28,6 +29,7 @@ int main(void) {
 	printf("*****************************************************\n");
 	printf("*****************************************************\n\n");
 
+
 	while (run)
 	{
 		switch (state) {
@@ -42,7 +44,8 @@ int main(void) {
 			{
 				state = MAIN_MENU;
 				ClearStdinBuffer();
-				printf("Entered value was not a number\n");
+				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));
+				//printf("Entered value was not a number\n");
 			}
 			break;
 		}
