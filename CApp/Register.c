@@ -22,7 +22,7 @@ int RegisterDevice() {
 	devices device[MAX_DEVICE_NAME];
 
 	while (keepAlive) {
-		
+
 		switch (state)
 		{
 		case SELECTION: {
@@ -45,6 +45,6 @@ int RegisterDevice() {
 			printf("FORKERT");
 			break;
 		}
-			
+	}
 	return 0;
 }
