@@ -158,6 +158,7 @@
     <ClCompile Include="Register.c" />
     <ClCompile Include="ReturnErrors.c" />
     <ClCompile Include="stdinHelper.c" />
+    <ClCompile Include="TextStrings.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Devices.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Register.h" />
     <ClInclude Include="ReturnErrors.h" />
     <ClInclude Include="stdinHelper.h" />
+    <ClInclude Include="TextStrings.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

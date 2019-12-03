@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "stdinHelper.h"
+#include "ReturnErrors.h"
 
 #define MAX_DEVICE_NAME 50
 
@@ -50,4 +51,17 @@ int RegisterDevice() {
 		}
 	}
 	return 0;
+}
+
+
+int SaveCfg(devices device)
+{
+	int returnCode = UNKNOWN_ERROR;
+
+
+
+
+
+
+	return returnCode;
 }

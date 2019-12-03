@@ -1,7 +1,12 @@
+/*
+gruppe:
+*/
+
 #include "Devices.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "stdinHelper.h"
+#include "TextStrings.h"
 
 enum states
 {
@@ -15,7 +20,7 @@ enum states
 
 int main(void) {
 	int state = MAIN_MENU, i = 0, run = 1, returnValue = EXIT_FAILURE;
-	char *menuName[TOTAL - 1] = {
+	char* menuName[TOTAL - 1] = {
 	"Price",
 	"Devices",
 	"About",
@@ -28,6 +33,7 @@ int main(void) {
 	printf("*****************************************************\n");
 	printf("*****************************************************\n\n");
 
+
 	while (run)
 	{
 		switch (state) {
@@ -38,11 +44,12 @@ int main(void) {
 			{
 				printf("%d. %s\n", i, menuName[i - 1]);
 			}
+
 			if (scanf("%i", &state) == 0)
 			{
 				state = MAIN_MENU;
 				ClearStdinBuffer();
-				printf("Entered value was not a number\n");
+				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));
 			}
 			break;
 		}
