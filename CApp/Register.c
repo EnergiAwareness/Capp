@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "stdinHelper.h"
 
 #define MAX_DEVICE_NAME 50
 
 struct devices {
-	char device[MAX_DEVICE_NAME];
+	char deviceName[MAX_DEVICE_NAME];
 		int kwh;
 };
 typedef struct devices devices;
@@ -18,8 +19,7 @@ enum States {
 
 int RegisterDevice() {
 	int state = 0, keepAlive = 1;
-
-	devices device[MAX_DEVICE_NAME];
+	devices newdevice;
 
 	while (keepAlive) {
 
@@ -30,11 +30,14 @@ int RegisterDevice() {
 
 			if (scanf("%d", &state) != 0) {
 				state = SELECTION;
-				printf("IKKE TAL"); // lav en flush ting
+				printf(""); // Find en tekststreng
+				ClearStdinBuffer(); // flusher stdin
 			}
 			break;
 		}
 		case CREATE_DEVICE: {
+			printf("Enter the name of your device: ");
+			scanf(" %s", newdevice.deviceName);
 			break;
 		}
 		case EXIT: {
