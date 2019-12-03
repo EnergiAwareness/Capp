@@ -1,8 +1,7 @@
 #include "TextStrings.h"
 
 
-
-char* menuName[TOTAL_STRINGS ] = {
+char* stringArray[TOTAL_STRINGS ] = {
 	"Entered value was not a number",
 	"Requested string could not be resolved",
 };
@@ -10,12 +9,10 @@ char* menuName[TOTAL_STRINGS ] = {
 
 char* GetTextString(int value)
 {
-	if (value >= 0 && value <= TOTAL_STRINGS)
-	{
-		return menuName[value];
+	if (value >= 0 && value < TOTAL_STRINGS) {
+		return stringArray[value];
 	}
-	else
-	{
-		return menuName[UNKNOWN_STRING_REQUEST];
+	else {
+		return stringArray[UNKNOWN_STRING_REQUEST];
 	}
 }

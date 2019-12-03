@@ -1,9 +1,21 @@
 #include <stdlib.h>
+#include "ReturnErrors.h"
 
-/*TOTAL must always be the last*/
-enum ReturnValues {
-	OK,
-	UNABLE_TO_CLEAR_STDIN,
-	//inset erroes here
-	TOTAL
+
+char* errorStrings[TOTAL_RETURN_VALUES] = {
+	"OK",
+	"Unable to clear stdin buffer",
+	"Unkowned error"
 };
+
+char* GetErrorCodeString(int value)
+{
+	if (value >= 0 && value < TOTAL_RETURN_VALUES)
+	{
+		return errorStrings[value];
+	}
+	else
+	{
+		return errorStrings[UNKNOWN_ERROR];
+	}
+}

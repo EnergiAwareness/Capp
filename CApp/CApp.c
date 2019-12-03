@@ -1,3 +1,7 @@
+/*
+gruppe:
+*/
+
 #include "Devices.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +20,7 @@ enum states
 
 int main(void) {
 	int state = MAIN_MENU, i = 0, run = 1, returnValue = EXIT_FAILURE;
-	char *menuName[TOTAL - 1] = {
+	char* menuName[TOTAL - 1] = {
 	"Price",
 	"Devices",
 	"About",
@@ -40,6 +44,7 @@ int main(void) {
 			{
 				printf("%d. %s\n", i, menuName[i - 1]);
 			}
+
 			if (scanf("%i", &state) == 0)
 			{
 				state = MAIN_MENU;
