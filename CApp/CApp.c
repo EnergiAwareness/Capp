@@ -45,7 +45,6 @@ int main(void) {
 				state = MAIN_MENU;
 				ClearStdinBuffer();
 				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));
-				//printf("Entered value was not a number\n");
 			}
 			break;
 		}
