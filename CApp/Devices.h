@@ -2,4 +2,4 @@
 
 //#include "Devices.c"
 
-extern void Devices1(void);
+extern void Devices(void);

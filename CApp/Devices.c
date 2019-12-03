@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void Devices1(void) {
+void Devices(void) {
 	printf("hej");
 }
