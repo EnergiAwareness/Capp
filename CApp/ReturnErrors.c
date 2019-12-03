@@ -5,7 +5,8 @@
 char* errorStrings[TOTAL_RETURN_VALUES] = {
 	"OK",
 	"Unable to clear stdin buffer",
-	"Unkowned error"
+	"Unkowned error",
+	"Entered value was not a number"
 };
 
 char* GetErrorCodeString(int value)

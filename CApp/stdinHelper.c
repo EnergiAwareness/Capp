@@ -27,3 +27,16 @@ int ClearStdinBuffer()
 	}
 	return returnCode;
 }
+
+int GetIntegerFromStdin(int* Variable)
+{
+	int returnCode = OK;
+
+	if (scanf("%i", Variable) == 0)
+	{
+		returnCode = INPUT_WAS_NOT_A_NUMBER;
+	}
+	ClearStdinBuffer();
+
+	return returnCode;
+}
