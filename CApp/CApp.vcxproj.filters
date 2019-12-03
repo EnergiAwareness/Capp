@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Interface">
       <UniqueIdentifier>{4e53c124-9bbe-40f8-8bb1-d8329b013d11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{8ba5f1d7-671c-4fcc-adb1-649f18f9f31e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Misc">
+      <UniqueIdentifier>{adc4cc30-192d-4c57-87d1-9d92e120defc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CApp.c">
@@ -45,6 +51,12 @@
     <ClCompile Include="Register.c">
       <Filter>Source Files\BLL</Filter>
     </ClCompile>
+    <ClCompile Include="ReturnErrors.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdinHelper.c">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
@@ -55,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="Register.h">
       <Filter>Header Files\BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnErrors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdinHelper.h">
+      <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
