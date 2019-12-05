@@ -9,3 +9,5 @@
  *  Returns: Error code
  */
 extern int ClearStdinBuffer();
+
+extern int GetIntegerFromStdin(int* Variable);

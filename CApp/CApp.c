@@ -2,11 +2,12 @@
 gruppe:
 */
 
-#include "Devices.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "Devices.h"
 #include "stdinHelper.h"
 #include "TextStrings.h"
+#include "ReturnErrors.h"
 
 enum states
 {
@@ -19,7 +20,7 @@ enum states
 };
 
 int main(void) {
-	int state = MAIN_MENU, i = 0, run = 1, returnValue = EXIT_FAILURE;
+	int state = MAIN_MENU, i = 0, run = 1, returnValue = EXIT_FAILURE, errorCode = 0;
 	char* menuName[TOTAL - 1] = {
 	"Price",
 	"Devices",
@@ -36,20 +37,20 @@ int main(void) {
 
 	while (run)
 	{
+		errorCode = OK;
 		switch (state) {
 		case MAIN_MENU:
 		{
-			printf("Please enter a number to select following:\n");
+			printf("%s\n", GetTextString(SELET_A_NUMBER));
 			for (i = 1; i < TOTAL; i++)
 			{
 				printf("%d. %s\n", i, menuName[i - 1]);
 			}
 
-			if (scanf("%i", &state) == 0)
+			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
 			{
 				state = MAIN_MENU;
-				ClearStdinBuffer();
-				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));
+				printf("%s\n", GetErrorCodeString(errorCode));
 			}
 			break;
 		}
@@ -60,6 +61,10 @@ int main(void) {
 		}
 		case DEVICES:
 		{
+			if ((errorCode = Devices()) != OK)
+			{
+				printf("%s\n", GetErrorCodeString(errorCode));
+			}
 			state = MAIN_MENU;
 			break;
 		}
@@ -86,7 +91,7 @@ int main(void) {
 		}
 		default:
 		{
-			printf("Invaild selection\n");
+			printf("%s\n", GetTextString(INVALID_SELECTION));
 			state = MAIN_MENU;
 			break;
 		}
