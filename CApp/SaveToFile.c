@@ -7,7 +7,7 @@ int SaveToFile(char buffer[], int lenght) {
 	
 	FILE* outputFile;
 	
-	outputFile = fopen("saveFile", "w");
+	outputFile = fopen("Config.cfg", "w");
 	if (outputFile == NULL) {
 		return CANNOT_SAVE_TO_FILE;
 	}
