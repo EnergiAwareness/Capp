@@ -3,6 +3,7 @@
 #include <string.h>
 #include "stdinHelper.h"
 #include "ReturnErrors.h"
+#include "TextStrings.h"
 
 #define MAX_DEVICE_NAME 50
 
@@ -29,16 +30,27 @@ int RegisterDevice() {
 		case SELECTION: {
 			printf("1: Create new device \n 9: To exit");
 
-			if (scanf("%d", &state) != 0) {
+			if (scanf("%d", &state) == 0) {
 				state = SELECTION;
-				printf(""); // Find en tekststreng
-				ClearStdinBuffer(); // flusher stdin
+				ClearStdinBuffer();
+				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));				
 			}
 			break;
 		}
 		case CREATE_DEVICE: {
 			printf("Enter the name of your device: ");
-			scanf(" %s", newdevice.deviceName);
+			printf("Enter kwh");
+
+			if (scanf(" %s", newdevice.deviceName) != 0
+				|| (scanf(" %d", newdevice.kwh) !=0)) {
+
+				SaveCfg(newdevice);				
+			}
+			else {
+				ClearStdinBuffer();
+				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));				
+				state = SELECTION;
+			}
 			break;
 		}
 		case EXIT: {
