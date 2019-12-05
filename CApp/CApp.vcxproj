@@ -154,17 +154,21 @@
   <ItemGroup>
     <ClCompile Include="CApp.c" />
     <ClCompile Include="Devices.c" />
+    <ClCompile Include="Existing.c" />
     <ClCompile Include="Price.c" />
     <ClCompile Include="Register.c" />
     <ClCompile Include="ReturnErrors.c" />
+    <ClCompile Include="SaveToFile.c" />
     <ClCompile Include="stdinHelper.c" />
     <ClCompile Include="TextStrings.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Devices.h" />
+    <ClInclude Include="Existing.h" />
     <ClInclude Include="Price.h" />
     <ClInclude Include="Register.h" />
     <ClInclude Include="ReturnErrors.h" />
+    <ClInclude Include="SaveToFile.h" />
     <ClInclude Include="stdinHelper.h" />
     <ClInclude Include="TextStrings.h" />
   </ItemGroup>

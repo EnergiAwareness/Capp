@@ -60,6 +60,12 @@
     <ClCompile Include="ReturnErrors.c">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="Existing.c">
+      <Filter>Source Files\BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveToFile.c">
+      <Filter>Source Files\DAL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
@@ -79,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="TextStrings.h">
       <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Existing.h">
+      <Filter>Header Files\BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveToFile.h">
+      <Filter>Header Files\DAL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
