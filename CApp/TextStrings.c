@@ -7,6 +7,8 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Invaild selection",
 	"Please enter a number to select following:",
 	"Select option: \n0: List devises \n1: Get best prise \n2: Delete a devise \n3: Exit to devise menu",
+	"Please enter the name of your device",
+	"Please enter the KwH usage of your device"
 };
 
 
