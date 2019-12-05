@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "ReturnErrors.h"
 
 #define CLEAR_ATTEMPS 1000
@@ -37,6 +38,17 @@ int GetIntegerFromStdin(int* Variable)
 		returnCode = INPUT_WAS_NOT_A_NUMBER;
 	}
 	ClearStdinBuffer();
+
+	return returnCode;
+}
+
+int GetStringFromStdin(char *string, int maxLength) 
+{
+	int returnCode = UNKNOWN_ERROR;
+	scanf_s(" %s", string, maxLength);
+	ClearStdinBuffer();
+
+	returnCode = OK;
 
 	return returnCode;
 }

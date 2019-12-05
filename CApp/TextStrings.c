@@ -6,6 +6,8 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Requested string could not be resolved",
 	"Invaild selection",
 	"Please enter a number to select following:",
+	"Please enter the name of your device",
+	"Please enter the KwH usage of your device"
 };
 
 
