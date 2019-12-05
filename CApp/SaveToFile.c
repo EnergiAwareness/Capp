@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "ReturnErrors.h"
 
 int SaveToFile(char buffer[], int lenght) {
 	int i = 0;
@@ -7,9 +8,8 @@ int SaveToFile(char buffer[], int lenght) {
 	FILE* outputFile;
 	
 	outputFile = fopen("saveFile", "w");
-	if (outputFile == NULL) { /*skal den lave en fil?*/
-		printf("%s", /*inster Error code here*/);
-		return /*error code*/;
+	if (outputFile == NULL) {
+		return CANNOT_SAVE_TO_FILE;
 	}
 	else {
 		for (i = 0; i < lenght; i++) {
@@ -18,5 +18,5 @@ int SaveToFile(char buffer[], int lenght) {
 		fclose(outputFile);
 	}
 
-	return 0;
+	return OK;
 }
