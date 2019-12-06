@@ -9,7 +9,7 @@
 enum States {
 	SELECTION,
 	CREATE_DEVICE,
-	EXIT = 9,
+	EXIT,
 };
 
 int RegisterDevice() {
@@ -22,7 +22,7 @@ int RegisterDevice() {
 		{
 		case SELECTION: {
 			printf("%s\n", GetTextString(SELET_A_NUMBER));
-			printf("1: Create new device \n9: To exit\n");
+			printf("1: Create new device \n2: Return\n");
 
 			if (scanf("%d", &state) == 0) {
 				state = SELECTION;
