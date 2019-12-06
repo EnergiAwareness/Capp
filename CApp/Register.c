@@ -4,23 +4,16 @@
 #include "stdinHelper.h"
 #include "ReturnErrors.h"
 #include "TextStrings.h"
-
-#define MAX_DEVICE_NAME 50
-
-struct devices {
-	char deviceName[MAX_DEVICE_NAME];
-		int kwh;
-};
-typedef struct devices devices;
+#include "Structs.h"
 
 enum States {
 	SELECTION,
 	CREATE_DEVICE,
-	EXIT = 9,
+	EXIT,
 };
 
 int RegisterDevice() {
-	int state = 0, keepAlive = 1;
+	int state = 0, keepAlive = 1, errorCode = OK;
 	devices newdevice;
 
 	while (keepAlive) {
@@ -28,7 +21,8 @@ int RegisterDevice() {
 		switch (state)
 		{
 		case SELECTION: {
-			printf("1: Create new device \n 9: To exit");
+			printf("%s\n", GetTextString(SELET_A_NUMBER));
+			printf("1: Create new device \n2: Return\n");
 
 			if (scanf("%d", &state) == 0) {
 				state = SELECTION;
@@ -38,19 +32,28 @@ int RegisterDevice() {
 			break;
 		}
 		case CREATE_DEVICE: {
-			printf("Enter the name of your device: ");
-			printf("Enter kwh");
+			printf("%s\n", GetTextString(ENTER_NAME_OF_DEVICE));
 
-			if (scanf(" %s", newdevice.deviceName) != 0
-				|| (scanf(" %d", newdevice.kwh) !=0)) {
+			if ((errorCode = GetStringFromStdin(newdevice.deviceName, MAX_DEVICE_NAME)) == OK)
+			{
+				printf("%s\n", GetTextString(ENTER_POWER_USAGE_OF_DEVICE));
+				if ((errorCode = GetIntegerFromStdin(newdevice.kwh)) != OK)
+				{
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
+				else
+				{
+					
+					//SaveCfg(newdevice);
 
-				SaveCfg(newdevice);				
+					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
+					state = SELECTION;
+				}
 			}
-			else {
-				ClearStdinBuffer();
-				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));				
-				state = SELECTION;
-			}
+			else
+			{
+				printf("%s\n", GetErrorCodeString(errorCode));
+			}			
 			break;
 		}
 		case EXIT: {
