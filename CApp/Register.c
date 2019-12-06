@@ -21,6 +21,7 @@ int RegisterDevice() {
 		switch (state)
 		{
 		case SELECTION: {
+			printf("%s\n", GetTextString(SELET_A_NUMBER));
 			printf("1: Create new device \n9: To exit\n");
 
 			if (scanf("%d", &state) == 0) {
@@ -42,7 +43,7 @@ int RegisterDevice() {
 				}
 				else
 				{
-					GetIntegerFromStdin(newdevice.kwh);
+					
 					//SaveCfg(newdevice);
 
 					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
