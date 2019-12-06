@@ -4,14 +4,15 @@
 #include "stdinHelper.h"
 #include "ReturnErrors.h"
 #include "TextStrings.h"
+#include "Structs.h"
 
-#define MAX_DEVICE_NAME 50
+/*#define MAX_DEVICE_NAME 50
 
 struct devices {
 	char deviceName[MAX_DEVICE_NAME];
 		int kwh;
 };
-typedef struct devices devices;
+typedef struct devices devices;*/
 
 enum States {
 	SELECTION,

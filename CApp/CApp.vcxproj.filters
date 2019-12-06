@@ -92,5 +92,8 @@
     <ClInclude Include="SaveToFile.h">
       <Filter>Header Files\DAL</Filter>
     </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

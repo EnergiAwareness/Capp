@@ -170,6 +170,7 @@
     <ClInclude Include="ReturnErrors.h" />
     <ClInclude Include="SaveToFile.h" />
     <ClInclude Include="stdinHelper.h" />
+    <ClInclude Include="Structs.h" />
     <ClInclude Include="TextStrings.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
