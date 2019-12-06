@@ -6,14 +6,6 @@
 #include "TextStrings.h"
 #include "Structs.h"
 
-/*#define MAX_DEVICE_NAME 50
-
-struct devices {
-	char deviceName[MAX_DEVICE_NAME];
-		int kwh;
-};
-typedef struct devices devices;*/
-
 enum States {
 	SELECTION,
 	CREATE_DEVICE,
@@ -50,7 +42,10 @@ int RegisterDevice() {
 				}
 				else
 				{
-					SaveCfg(newdevice);
+					GetIntegerFromStdin(newdevice.kwh);
+					//SaveCfg(newdevice);
+
+					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
 					state = SELECTION;
 				}
 			}
