@@ -66,6 +66,9 @@
     <ClCompile Include="SaveToFile.c">
       <Filter>Source Files\DAL</Filter>
     </ClCompile>
+    <ClCompile Include="LoadFile.c">
+      <Filter>Source Files\DAL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files\BLL</Filter>
     </ClInclude>
     <ClInclude Include="SaveToFile.h">
+      <Filter>Header Files\DAL</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadFile.h">
       <Filter>Header Files\DAL</Filter>
     </ClInclude>
   </ItemGroup>
