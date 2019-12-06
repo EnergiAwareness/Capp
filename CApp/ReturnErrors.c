@@ -7,7 +7,8 @@ char* errorStrings[TOTAL_RETURN_VALUES] = {
 	"Unable to clear stdin buffer",
 	"Unkowned error",
 	"Entered value was not a number",
-	"Cannot save the file"
+	"Cannot save the file",
+    "File not found"
 };
 
 char* GetErrorCodeString(int value)
