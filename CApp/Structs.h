@@ -2,8 +2,8 @@
 
 #define MAX_DEVICE_NAME 50
 
-struct devices {
+typedef struct devices {
 	char deviceName[MAX_DEVICE_NAME];
 	int kwh;
-};
-typedef struct devices devices;
+} devices;
+

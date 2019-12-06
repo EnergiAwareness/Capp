@@ -5,7 +5,7 @@
 
 
 int getHourPrice(void) {
-    char array[] = {""};
-    ½
+	char array[] = { "01-01-2019;00-01;162,28" };
+
 }
 
