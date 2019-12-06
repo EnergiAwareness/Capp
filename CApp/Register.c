@@ -18,11 +18,9 @@ int RegisterDevice() {
 
 	while (keepAlive) {
 
-		switch (state)
-		{
+		switch (state) {
 		case SELECTION: {
-			printf("%s\n", GetTextString(SELET_A_NUMBER));
-			printf("1: Create new device \n2: Return\n");
+			printf("%s\n", GetTextString(SELECT_REGISTER));
 
 			if (scanf("%d", &state) == 0) {
 				state = SELECTION;
@@ -34,24 +32,21 @@ int RegisterDevice() {
 		case CREATE_DEVICE: {
 			printf("%s\n", GetTextString(ENTER_NAME_OF_DEVICE));
 
-			if ((errorCode = GetStringFromStdin(newdevice.deviceName, MAX_DEVICE_NAME)) == OK)
-			{
+			if ((errorCode = GetStringFromStdin(newdevice.deviceName, MAX_DEVICE_NAME)) == OK) {
 				printf("%s\n", GetTextString(ENTER_POWER_USAGE_OF_DEVICE));
-				if ((errorCode = GetIntegerFromStdin(newdevice.kwh)) != OK)
-				{
-					printf("%s\n", GetErrorCodeString(errorCode));
-				}
-				else
-				{
-					
-					//SaveCfg(newdevice);
 
+				if ((errorCode = GetIntegerFromStdin(&newdevice.kwh)) != OK) {
+					printf("%s\n", GetErrorCodeString(errorCode));
+					state = SELECTION;
+				}
+				else {
+					SaveCfg(newdevice);								
 					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
+
 					state = SELECTION;
 				}
 			}
-			else
-			{
+			else {
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}			
 			break;
@@ -61,7 +56,6 @@ int RegisterDevice() {
 			break;
 		}
 		default:
-			printf("FORKERT");
 			break;
 		}
 	}
