@@ -1,3 +1,11 @@
 #pragma once
 
-extern int LoadFile(char _InputFileName[], char* _LoadedFile);
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "ReturnErrors.h"
+
+void FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length);
+void LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width);
+
+int LoadFile(char InputFileName[], char*** LoadedFileArray);

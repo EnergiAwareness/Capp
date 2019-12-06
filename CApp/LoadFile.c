@@ -1,32 +1,62 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "ReturnErrors.h"
+#include "LoadFile.h"
 
-int LoadFile(char _InputFileName[], char* _LoadedFile) {
+int LoadFile(char InputFileName[], char*** LoadedFileArray) {
+    int Width = 0, Height = 0, Index = 0;
+    char InputFileName[] = "test.csv";
+
+    FindWidthAndLengthOfFile(InputFileName, &Width, &Height);
+
+    char** LoadedFile;
+    LoadedFile = calloc(Height, sizeof(char**));
+    if (LoadedFile != NULL)
+        for (int i = 0; i < Height; i++)
+            LoadedFile[i] = calloc(Width, sizeof(char*));
+
+    if (LoadedFile != NULL)
+    {
+
+        LoadFileToStringArray(LoadedFile, InputFileName, Width);
+    }
+
+    *LoadedFileArray = LoadedFile;
+}
+
+void FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
     FILE* fp;
-    char c, Buffer[128];
-    int i = 0, CharCounter = 0;
+    char Buffer[128];
+    int CurrentStringLength = 0, CurrentFileLength = 0;
 
-    fp = fopen(_InputFileName, "r");
+    fopen_s(&fp, _InputFileName, "r");
 
-    if (fp == NULL) {
+    if (fp == NULL)
         return CANNOT_OPEN_FILE;
+
+    while (!feof(fp)) {
+        fgets(Buffer, 128, fp);
+        CurrentStringLength = strlen(Buffer);
+
+        if (CurrentStringLength > * Width)
+            * Width = CurrentStringLength;
+
+        CurrentFileLength++;
+
     }
-
-    for (c = getc(fp); c != EOF; c = getc(fp)) {
-        CharCounter++;
-    }
-    
-    rewind(fp); // resets cursor pointer to start of file
-
-    _LoadedFile = (char*)calloc(CharCounter, sizeof(char));
-
-    i = 0;
-
-    fread(_LoadedFile, sizeof(char), CharCounter, fp);
+    *Length = CurrentFileLength;
 
     fclose(fp);
+}
 
-    return OK;
+void LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width) {
+    FILE* fp;
+    int Index = 0;
+
+    fopen_s(&fp, _InputFileName, "r");
+
+    if (fp == NULL)
+        return CANNOT_OPEN_FILE;
+
+    while (!feof(fp)) {
+        fgets(_LoadedFile[Index], _Width, fp);
+        Index++;
+    }
 }
