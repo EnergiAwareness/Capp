@@ -16,4 +16,3 @@ typedef struct _DateTimePrice {
 	int hourEnd;
 	double price;
 } _DateTimePrice;
-_DateTimePrice* dateTimePrice;
