@@ -2,7 +2,7 @@
 
 int LoadFile(char InputFileName[], char*** LoadedFileArray) {
     int Width = 0, Height = 0, Index = 0;
-    char InputFileName[] = "test.csv";
+    //char InputFileName[] = "test.csv";
 
     FindWidthAndLengthOfFile(InputFileName, &Width, &Height);
 
@@ -19,6 +19,7 @@ int LoadFile(char InputFileName[], char*** LoadedFileArray) {
     }
 
     *LoadedFileArray = LoadedFile;
+    return Height;
 }
 
 void FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
