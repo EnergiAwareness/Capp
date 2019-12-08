@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="Devices.h" />
     <ClInclude Include="Existing.h" />
+    <ClInclude Include="GetHourPrices.h" />
     <ClInclude Include="LoadFile.h" />
     <ClInclude Include="Price.h" />
     <ClInclude Include="Register.h" />

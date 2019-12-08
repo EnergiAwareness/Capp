@@ -104,5 +104,8 @@
     <ClInclude Include="Structs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GetHourPrices.h">
+      <Filter>Header Files\BLL</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
