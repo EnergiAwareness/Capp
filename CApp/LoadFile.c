@@ -6,20 +6,13 @@ int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width
 int LoadFile(char InputFileName[], char*** LoadedFileArray, int* AmountOfStrings) {
     int Width = 0, Height = 0, Index = 0;
 
-    FindWidthAndLengthOfFile(InputFileName, &Width, &Height);
+    if (FindWidthAndLengthOfFile(InputFileName, &Width, &Height) == CANNOT_OPEN_FILE)
+        return CANNOT_OPEN_FILE;
 
-    /*printf(" Length: %d, Height: %d", Width, Height);
 
-    char** LoadedFile;
-
-    LoadedFile = malloc(Height, sizeof(char**));*/
-    //if (LoadedFile != NULL)
-    //    for (int i = 0; i < Height; i++)
-    //        LoadedFile[i] = malloc(Width, sizeof(char*));
-
-    //printf(" %d\n", sizeof(LoadedFile));
 
     char** LoadedFile;
+
     LoadedFile = calloc(Height, sizeof(char**));
     if (LoadedFile != NULL)
         for (int i = 0; i < Height; i++)
@@ -34,7 +27,7 @@ int LoadFile(char InputFileName[], char*** LoadedFileArray, int* AmountOfStrings
     *LoadedFileArray = LoadedFile;
     *AmountOfStrings = Height;
 
-    return 0;
+    return OK;
 }
 
 int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
@@ -60,6 +53,8 @@ int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
     *Length = CurrentFileLength + 1;
 
     fclose(fp);
+
+    return OK;
 }
 
 int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width) {
@@ -78,4 +73,5 @@ int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width
 
         Index++;
     }
+    return OK;
 }
