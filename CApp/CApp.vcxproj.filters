@@ -66,6 +66,12 @@
     <ClCompile Include="SaveToFile.c">
       <Filter>Source Files\DAL</Filter>
     </ClCompile>
+    <ClCompile Include="LoadFile.c">
+      <Filter>Source Files\DAL</Filter>
+    </ClCompile>
+    <ClCompile Include="getHourPrices.c">
+      <Filter>Source Files\BLL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
@@ -92,8 +98,14 @@
     <ClInclude Include="SaveToFile.h">
       <Filter>Header Files\DAL</Filter>
     </ClInclude>
+    <ClInclude Include="LoadFile.h">
+      <Filter>Header Files\DAL</Filter>
+    </ClInclude>
     <ClInclude Include="Structs.h">
-      <Filter>Header Files\Misc</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GetHourPrices.h">
+      <Filter>Header Files\BLL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

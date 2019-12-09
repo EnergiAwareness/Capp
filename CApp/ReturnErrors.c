@@ -9,6 +9,7 @@ char* errorStrings[TOTAL_RETURN_VALUES] = {
 	"Entered value was not a number",
 	"Cannot save the file",
 	"Existing failed"
+    "File not found"
 };
 
 char* GetErrorCodeString(int value)

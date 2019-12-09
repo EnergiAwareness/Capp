@@ -13,6 +13,8 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Device could not be deleted",
 	"Device was succesfully deleted"
 	"Could not get best price"
+	"Device was saved successfully",
+	"Select option: \n1: Register new device \n2: Return"
 };
 
 

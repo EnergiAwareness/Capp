@@ -155,6 +155,8 @@
     <ClCompile Include="CApp.c" />
     <ClCompile Include="Devices.c" />
     <ClCompile Include="Existing.c" />
+    <ClCompile Include="getHourPrices.c" />
+    <ClCompile Include="LoadFile.c" />
     <ClCompile Include="Price.c" />
     <ClCompile Include="Register.c" />
     <ClCompile Include="ReturnErrors.c" />
@@ -165,6 +167,8 @@
   <ItemGroup>
     <ClInclude Include="Devices.h" />
     <ClInclude Include="Existing.h" />
+    <ClInclude Include="GetHourPrices.h" />
+    <ClInclude Include="LoadFile.h" />
     <ClInclude Include="Price.h" />
     <ClInclude Include="Register.h" />
     <ClInclude Include="ReturnErrors.h" />

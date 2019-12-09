@@ -7,6 +7,7 @@ enum ReturnValues {
 	INPUT_WAS_NOT_A_NUMBER,
 	CANNOT_SAVE_TO_FILE,
 	EXISTING_FAILED,
+    CANNOT_OPEN_FILE,
 	//inset erroes here
 	TOTAL_RETURN_VALUES
 };

@@ -2,8 +2,17 @@
 
 #define MAX_DEVICE_NAME 50
 
-struct devices {
+typedef struct _Devices {
 	char deviceName[MAX_DEVICE_NAME];
 	int kwh;
-};
-typedef struct devices devices;
+} devices;
+
+/* Used to parse array from file into */
+typedef struct _DateTimePrice {
+	int day;
+	int month;
+	int year;
+	int hourStart;
+	int hourEnd;
+	double price;
+} _DateTimePrice;
