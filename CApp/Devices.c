@@ -4,6 +4,7 @@
 #include "ReturnErrors.h"
 #include "Register.h"
 #include "TextStrings.h"
+#include "Existing.h"
 
 enum menu
 {
@@ -44,6 +45,10 @@ int Devices(void) {
 		}
 		case EXISTING:
 		{
+			if (Existing() != OK) {
+				printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+			}
+
 			state = SELECTION;
 			break;
 		}
