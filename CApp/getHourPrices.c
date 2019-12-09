@@ -9,9 +9,9 @@ size_t ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth,
     fileHeight = LoadFile("test.csv", &loadedFileArray);
 
     printf("%d", fileHeight);
+	_DateTimePrice builder;
 
     for (i = 0; i < fileHeight; i++) {
-        _DateTimePrice builder;
 
         strncpy(temp, loadedFileArray[i], 2);
         builder.day = atoi(temp);
