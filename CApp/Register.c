@@ -5,6 +5,9 @@
 #include "ReturnErrors.h"
 #include "TextStrings.h"
 #include "Structs.h"
+#include "SaveToFile.h"
+
+#define INT_MAX_CHAR 10
 
 enum States {
 	SELECTION,
@@ -40,7 +43,7 @@ int RegisterDevice() {
 					state = SELECTION;
 				}
 				else {
-					SaveCfg(newdevice);								
+					/*SaveCfg(newdevice, 1);*/								
 					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
 
 					state = SELECTION;
@@ -63,14 +66,25 @@ int RegisterDevice() {
 }
 
 
-int SaveCfg(devices device)
-{
-	int returnCode = UNKNOWN_ERROR;
+int SaveCfg(devices deviceList[], int deviceCount) {
+	char device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
+	char ckwh[MAX_DEVICE_NAME];
+	int returnCode = OK;
 
-
-
-
-
+	if (device != NULL) {
+		for (int i = 0; i < deviceCount; i++) {
+			strcpy(device, deviceList[i].deviceName);
+			strcat(device, ", kwh: ");
+			sprintf(ckwh, "%d", deviceList[i].kwh);
+			strcat(device, ckwh);
+			strcat(device, "; ");
+		}
+		returnCode = SaveToFile(device, strlen(device));
+	}
+	else {
+		returnCode = UNKNOWN_ERROR;
+	}
+	free(device);
 
 	return returnCode;
 }

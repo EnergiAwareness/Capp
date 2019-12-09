@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "ReturnErrors.h"
@@ -17,7 +18,8 @@ enum state {
 
 int Existing(void) {
 	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
-	devices ExistingDevices[ARRAY_SIZE];
+	devices *existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
+
 	/*LoadCfg();*/
 
 	while (keepAlive) {
@@ -29,7 +31,11 @@ int Existing(void) {
 			break;
 		}
 		case LISTE_ALL_DEVICES: {
-			/*print af devices*/
+
+			for (i = 0; i < 3; i++) {
+				printf("Device: %d\nName: %s\nkWh: %d\n\n", i + 1, existingDevices[i].deviceName, existingDevices[i].kwh);
+			}
+			
 			state = SELECTION;
 			break;
 		}
@@ -49,8 +55,8 @@ int Existing(void) {
 				printf("%s\n", GetTextString(COULD_NOT_DELETE_DEVICE));
 			}
 			else {
-				strcpy(ExistingDevices[selectedDevice].deviceName, "\0");
-				ExistingDevices[selectedDevice].kwh = 0;
+				strcpy(existingDevices[selectedDevice - 1].deviceName, "\0");
+				existingDevices[selectedDevice - 1].kwh = 0;
 
 				printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
 			}
