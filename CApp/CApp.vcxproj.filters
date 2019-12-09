@@ -19,17 +19,11 @@
     <Filter Include="Source Files\DAL">
       <UniqueIdentifier>{67ac78d4-88f8-4b25-b128-4477bce79c33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Interface">
-      <UniqueIdentifier>{31118d26-a8c3-42ca-aff1-889100254918}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\BLL">
       <UniqueIdentifier>{10cef39f-0b3b-4839-be9d-4e2bd6b89803}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\DAL">
       <UniqueIdentifier>{220dd503-92db-45ba-a4d4-21c99a9a170e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Interface">
-      <UniqueIdentifier>{901da947-592e-4140-a6fc-235a41868a41}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Misc">
       <UniqueIdentifier>{3cd22007-d2cc-47f0-b437-81741cd73859}</UniqueIdentifier>
@@ -45,73 +39,46 @@
     <ClCompile Include="ReturnErrors.c">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="stdinHelper.c">
-      <Filter>Source Files\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="TextStrings.c">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="Devices.c">
-      <Filter>Source Files\Interface</Filter>
+      <Filter>Source Files\BLL</Filter>
     </ClCompile>
-    <ClCompile Include="LoadFile.c">
+    <ClCompile Include="Prices.c">
+      <Filter>Source Files\BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="FileHandler.c">
       <Filter>Source Files\DAL</Filter>
     </ClCompile>
-    <ClCompile Include="SaveToFile.c">
+    <ClCompile Include="PriceData.c">
       <Filter>Source Files\DAL</Filter>
     </ClCompile>
-    <ClCompile Include="Existing.c">
-      <Filter>Source Files\BLL</Filter>
-    </ClCompile>
-    <ClCompile Include="GetHourPrices.c">
-      <Filter>Source Files\BLL</Filter>
-    </ClCompile>
-    <ClCompile Include="PriceCalls.c">
-      <Filter>Source Files\BLL</Filter>
-    </ClCompile>
-    <ClCompile Include="Register.c">
-      <Filter>Source Files\BLL</Filter>
-    </ClCompile>
-    <ClCompile Include="Price.c">
-      <Filter>Source Files\Interface</Filter>
+    <ClCompile Include="StdinHelper.c">
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ReturnErrors.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="stdinHelper.h">
-      <Filter>Header Files\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>Header Files\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="TextStrings.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
     <ClInclude Include="Devices.h">
-      <Filter>Header Files\Interface</Filter>
+      <Filter>Header Files\BLL</Filter>
     </ClInclude>
-    <ClInclude Include="LoadFile.h">
+    <ClInclude Include="Prices.h">
+      <Filter>Header Files\BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandler.h">
       <Filter>Header Files\DAL</Filter>
     </ClInclude>
-    <ClInclude Include="SaveToFile.h">
+    <ClInclude Include="PriceData.h">
       <Filter>Header Files\DAL</Filter>
     </ClInclude>
-    <ClInclude Include="Existing.h">
-      <Filter>Header Files\BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="GetHourPrices.h">
-      <Filter>Header Files\BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="PriceCalls.h">
-      <Filter>Header Files\BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="Register.h">
-      <Filter>Header Files\BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="Price.h">
-      <Filter>Header Files\Interface</Filter>
+    <ClInclude Include="StdinHelper.h">
+      <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

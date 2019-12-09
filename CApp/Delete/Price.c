@@ -26,8 +26,7 @@ int Price(void) {
 		{
 		case SELECTION:
 		{
-			printf("%s\n", GetTextString(SELET_A_NUMBER));
-			printf(" %s\n", GetTextString(PRICES_MENU));
+			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(PRICES_MENU));
 			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
 			{
 				state = SELECTION;

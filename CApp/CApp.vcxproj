@@ -88,6 +88,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,29 +127,20 @@
   <ItemGroup>
     <ClCompile Include="CApp.c" />
     <ClCompile Include="Devices.c" />
-    <ClCompile Include="Existing.c" />
-    <ClCompile Include="GetHourPrices.c" />
-    <ClCompile Include="LoadFile.c" />
-    <ClCompile Include="Price.c" />
-    <ClCompile Include="PriceCalls.c" />
-    <ClCompile Include="Register.c" />
+    <ClCompile Include="FileHandler.c" />
+    <ClCompile Include="PriceData.c" />
+    <ClCompile Include="Prices.c" />
     <ClCompile Include="ReturnErrors.c" />
-    <ClCompile Include="SaveToFile.c" />
-    <ClCompile Include="stdinHelper.c" />
+    <ClCompile Include="StdinHelper.c" />
     <ClCompile Include="TextStrings.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Devices.h" />
-    <ClInclude Include="Existing.h" />
-    <ClInclude Include="GetHourPrices.h" />
-    <ClInclude Include="LoadFile.h" />
-    <ClInclude Include="Price.h" />
-    <ClInclude Include="PriceCalls.h" />
-    <ClInclude Include="Register.h" />
+    <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="PriceData.h" />
+    <ClInclude Include="Prices.h" />
     <ClInclude Include="ReturnErrors.h" />
-    <ClInclude Include="SaveToFile.h" />
-    <ClInclude Include="stdinHelper.h" />
-    <ClInclude Include="Structs.h" />
+    <ClInclude Include="StdinHelper.h" />
     <ClInclude Include="TextStrings.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

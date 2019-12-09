@@ -7,11 +7,11 @@
 #include "Structs.h"
 #include "SaveToFile.h"
 
-#define INT_MAX_CHAR 10
+
 
 enum States {
 	SELECTION,
-	CREATE_DEVICE,
+	CREATE_DEVICE = 1,
 	EXIT,
 };
 

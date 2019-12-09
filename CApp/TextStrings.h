@@ -21,5 +21,7 @@ enum Text_Strings
 	/* 12 */ SELECT_REGISTER,
 	/* 13 */ DATE_INPUT,
 	/* 14 */ PRICES_MENU,
+	/* 15 */ DEVICE_MENU,
+	/* 16 */ MAIN_MENU,
 	/* 14 */ TOTAL_STRINGS//MUST BE LAST!!
 };
