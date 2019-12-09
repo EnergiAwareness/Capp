@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -155,8 +155,10 @@
     <ClCompile Include="CApp.c" />
     <ClCompile Include="Devices.c" />
     <ClCompile Include="Existing.c" />
+    <ClCompile Include="getHourPrices.c" />
     <ClCompile Include="LoadFile.c" />
     <ClCompile Include="Price.c" />
+    <ClCompile Include="Prices.c" />
     <ClCompile Include="Register.c" />
     <ClCompile Include="ReturnErrors.c" />
     <ClCompile Include="savecfg.c" />
@@ -167,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="Devices.h" />
     <ClInclude Include="Existing.h" />
+    <ClInclude Include="GetHourPrices.h" />
     <ClInclude Include="LoadFile.h" />
     <ClInclude Include="Price.h" />
     <ClInclude Include="Register.h" />

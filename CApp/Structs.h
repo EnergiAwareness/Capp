@@ -14,4 +14,5 @@ typedef struct _DateTimePrice {
 	int year;
 	int hourStart;
 	int hourEnd;
-} dateTimePrice;
+	double price;
+} _DateTimePrice;

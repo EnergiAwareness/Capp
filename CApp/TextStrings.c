@@ -6,9 +6,13 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Requested string could not be resolved",
 	"Invaild selection",
 	"Please enter a number to select following:",
-	"Select option: \n0: List devises \n1: Get best prise \n2: Delete a devise \n3: Exit to devise menu",
+	"Select option: \n1: List devises \n2: Get best prise \n3: Delete a devise \n4: Return",
 	"Please enter the name of your device",
 	"Please enter the KwH usage of your device",
+	"Enter device to use",
+	"Device could not be deleted",
+	"Device was succesfully deleted"
+	"Could not get best price"
 	"Device was saved successfully",
 	"Select option: \n1: Register new device \n2: Return"
 };

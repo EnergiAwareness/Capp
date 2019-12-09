@@ -69,8 +69,8 @@
     <ClCompile Include="LoadFile.c">
       <Filter>Source Files\DAL</Filter>
     </ClCompile>
-    <ClCompile Include="savecfg.c">
-      <Filter>Source Files\DAL</Filter>
+    <ClCompile Include="getHourPrices.c">
+      <Filter>Source Files\BLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="Structs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GetHourPrices.h">
+      <Filter>Header Files\BLL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
