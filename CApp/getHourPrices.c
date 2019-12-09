@@ -1,14 +1,18 @@
 #include "GetHourPrices.h"
 
-size_t ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice) {
+int ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct) {
     int fileHeight, i;
     char** loadedFileArray;
     char temp[256];
     size_t count = 0;
+	int errorCode;
 
-    fileHeight = LoadFile("test.csv", &loadedFileArray);
+	if ((errorCode = LoadFile("test.csv", &loadedFileArray, &fileHeight)) != OK)
+	{
+		return errorCode;
+	}
+    
 
-    printf("%d", fileHeight);
 	_DateTimePrice builder;
 
     for (i = 0; i < fileHeight; i++) {
@@ -37,5 +41,6 @@ size_t ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth,
             count++;
         }
     }
-    return count;
+	*sizeOfStruct = count;
+    /* Enter a return value */
 }

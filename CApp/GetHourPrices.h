@@ -2,5 +2,6 @@
 #include "Structs.h"
 #include "LoadFile.h"
 #include <string.h>
+#include "ReturnErrors.h"
 
-size_t ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice);
+int ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct);
