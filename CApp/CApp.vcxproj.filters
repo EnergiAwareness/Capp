@@ -78,6 +78,9 @@
     <ClCompile Include="PriceCalls.c">
       <Filter>Source Files\BLL</Filter>
     </ClCompile>
+    <ClCompile Include="savecfg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GetHourPrices.h">
+      <Filter>Header Files\BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="PriceCalls.h">
       <Filter>Header Files\BLL</Filter>
     </ClInclude>
   </ItemGroup>

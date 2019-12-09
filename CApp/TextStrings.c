@@ -14,7 +14,8 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Device was succesfully deleted",
 	"Could not get best price",
 	"Device was saved successfully",
-	"Select option: \n1: Register new device \n2: Return"
+	"Select option: \n1: Register new device \n2: Return",
+	"Please enter two dates in the following format: 'DD:MM DD:MM' starting with the oldest date"
 };
 
 

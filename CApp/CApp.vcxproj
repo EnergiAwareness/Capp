@@ -173,6 +173,7 @@
     <ClInclude Include="GetHourPrices.h" />
     <ClInclude Include="LoadFile.h" />
     <ClInclude Include="Price.h" />
+    <ClInclude Include="PriceCalls.h" />
     <ClInclude Include="Register.h" />
     <ClInclude Include="ReturnErrors.h" />
     <ClInclude Include="SaveToFile.h" />
