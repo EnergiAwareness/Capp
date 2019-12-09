@@ -5,4 +5,4 @@
 #include <stdlib.h>
 #include "ReturnErrors.h"
 
-extern int LoadFile(char InputFileName[], char*** LoadedFileArray);
+extern int LoadFile(char InputFileName[], char*** LoadedFileArray, int* AmountOfStrings);

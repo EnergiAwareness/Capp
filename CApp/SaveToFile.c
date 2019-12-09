@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "ReturnErrors.h"
 
-int SaveToFile(char buffer[], int lenght) {
+int SaveToFile(char buffer[], int lenght, char fileName[]) {
 	int i = 0;
 	
 	FILE* outputFile;
 	
-	outputFile = fopen("Config.cfg", "w");
+	outputFile = fopen(fileName, "w");
 	if (outputFile == NULL) {
 		return CANNOT_SAVE_TO_FILE;
 	}
