@@ -2,9 +2,19 @@
 
 int LoadFile(char InputFileName[], char*** LoadedFileArray) {
     int Width = 0, Height = 0, Index = 0;
-    //char InputFileName[] = "test.csv";
 
     FindWidthAndLengthOfFile(InputFileName, &Width, &Height);
+
+    /*printf(" Length: %d, Height: %d", Width, Height);
+
+    char** LoadedFile;
+
+    LoadedFile = malloc(Height, sizeof(char**));*/
+    //if (LoadedFile != NULL)
+    //    for (int i = 0; i < Height; i++)
+    //        LoadedFile[i] = malloc(Width, sizeof(char*));
+
+    //printf(" %d\n", sizeof(LoadedFile));
 
     char** LoadedFile;
     LoadedFile = calloc(Height, sizeof(char**));
@@ -19,10 +29,11 @@ int LoadFile(char InputFileName[], char*** LoadedFileArray) {
     }
 
     *LoadedFileArray = LoadedFile;
+
     return Height;
 }
 
-void FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
+int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
     FILE* fp;
     char Buffer[128];
     int CurrentStringLength = 0, CurrentFileLength = 0;
@@ -42,12 +53,12 @@ void FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
         CurrentFileLength++;
 
     }
-    *Length = CurrentFileLength;
+    *Length = CurrentFileLength + 1;
 
     fclose(fp);
 }
 
-void LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width) {
+int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width) {
     FILE* fp;
     int Index = 0;
 
@@ -58,6 +69,9 @@ void LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Widt
 
     while (!feof(fp)) {
         fgets(_LoadedFile[Index], _Width, fp);
+
+        printf(" %s", _LoadedFile[Index]);
+
         Index++;
     }
 }
