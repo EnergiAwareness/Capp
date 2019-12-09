@@ -11,8 +11,8 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Please enter the KwH usage of your device",
 	"Enter device to use",
 	"Device could not be deleted",
-	"Device was succesfully deleted"
-	"Could not get best price"
+	"Device was succesfully deleted",
+	"Could not get best price",
 	"Device was saved successfully",
 	"Select option: \n1: Register new device \n2: Return"
 };
