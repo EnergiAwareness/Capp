@@ -1,6 +1,9 @@
 #include "LoadFile.h"
 
-int LoadFile(char InputFileName[], char*** LoadedFileArray) {
+int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length);
+int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width);
+
+int LoadFile(char InputFileName[], char*** LoadedFileArray, int* AmountOfStrings) {
     int Width = 0, Height = 0, Index = 0;
 
     FindWidthAndLengthOfFile(InputFileName, &Width, &Height);
@@ -29,8 +32,9 @@ int LoadFile(char InputFileName[], char*** LoadedFileArray) {
     }
 
     *LoadedFileArray = LoadedFile;
+    *AmountOfStrings = Height;
 
-    return Height;
+    return 0;
 }
 
 int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
