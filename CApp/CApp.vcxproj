@@ -159,6 +159,7 @@
     <ClCompile Include="Price.c" />
     <ClCompile Include="Register.c" />
     <ClCompile Include="ReturnErrors.c" />
+    <ClCompile Include="savecfg.c" />
     <ClCompile Include="SaveToFile.c" />
     <ClCompile Include="stdinHelper.c" />
     <ClCompile Include="TextStrings.c" />
