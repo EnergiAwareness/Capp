@@ -9,7 +9,7 @@ enum ReturnValues {
 	EXISTING_FAILED,
     CANNOT_OPEN_FILE,
 	//inset erroes here
-	TOTAL_RETURN_VALUES
+	TOTAL_RETURN_VALUES //MUST BE LAST
 };
 
 extern char* GetErrorCodeString(int value);
