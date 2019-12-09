@@ -9,6 +9,7 @@ gruppe:
 #include "TextStrings.h"
 #include "ReturnErrors.h"
 #include "LoadFile.h"
+#include "Price.h"
 
 enum states
 {
@@ -57,6 +58,10 @@ int main(void) {
 		}
 		case PRICE:
 		{
+			if ((errorCode = Price()) != OK)
+			{
+				printf("%s\n", GetErrorCodeString(errorCode));
+			}
 			state = MAIN_MENU;
 			break;
 		}

@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "stdinHelper.h"
 #include "ReturnErrors.h"
 #include "Register.h"

@@ -79,7 +79,7 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 			strcat(device, ckwh);
 			strcat(device, "; ");
 		}
-		returnCode = SaveToFile(device, strlen(device));
+		returnCode = SaveToFile(device, strlen(device), "devices.ini");
 	}
 	else {
 		returnCode = UNKNOWN_ERROR;

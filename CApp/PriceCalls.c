@@ -1,6 +1,7 @@
 #include "PriceCalls.h"
 
-int today() {
+
+int Today() {
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
 	_DateTimePrice *callPrices;
@@ -15,10 +16,10 @@ int today() {
 	}
 }
 
-int tomorrow() {
+int Tomorrow() {
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
-	_DateTimePrice* callPrices;
+	_DateTimePrice* callPrices = NULL;
 	size_t structSize = 0;
 	int i = 0;
 	int errorCode;
@@ -31,10 +32,10 @@ int tomorrow() {
 	}
 }
 
-int history() {
+int Historical() {
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
-	_DateTimePrice* callPrices;
+	_DateTimePrice* callPrices = NULL;
 	size_t structSize = 0;
 	int i = 0;
 	int errorCode;

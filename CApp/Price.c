@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include "stdinHelper.h"
 #include "ReturnErrors.h"
-#include "Register.h"
 #include "TextStrings.h"
-#include "Existing.h"
 #include "PriceCalls.h"
+
 
 enum menu
 {
@@ -16,7 +15,7 @@ enum menu
 	BACK,
 };
 
-int Devices(void) {
+int Price(void) {
 
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
 

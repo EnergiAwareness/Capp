@@ -4,6 +4,6 @@
 #include "ReturnErrors.h"
 #include "TextStrings.h"
 
-int today();
-int tomorrow();
-int history();
+extern int Today();
+extern int Tomorrow();
+extern int Historical();
