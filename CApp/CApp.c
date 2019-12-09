@@ -25,6 +25,10 @@ enum states
 	BACK = 9,
 };
 
+
+int Price(void);
+int Devices(void);
+
 int main(void) {
 	int state = SELECTION, i = 0, run = 1, returnValue = EXIT_FAILURE, errorCode = 0;
 	

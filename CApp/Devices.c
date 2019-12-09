@@ -24,6 +24,8 @@ typedef struct Devices {
 	int kwh;
 } devices;
 
+int ChooseDevice(int* selectedDevice);
+
 int Existing(void) {
 	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
 	devices* existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
@@ -155,24 +157,24 @@ int RegisterDevice(void) {
 }
 
 int SaveCfg(devices deviceList[], int deviceCount) {
-	char device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
-	char ckwh[MAX_DEVICE_NAME];
+	/*char device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
+	char ckwh[MAX_DEVICE_NAME];*/
 	int returnCode = OK;
 
-	if (device != NULL) {
-		for (int i = 0; i < deviceCount; i++) {
-			strcpy(device, deviceList[i].deviceName);
-			strcat(device, ", kwh: ");
-			sprintf(ckwh, "%d", deviceList[i].kwh);
-			strcat(device, ckwh);
-			strcat(device, "; ");
-		}
-		returnCode = SaveToFile(device, strlen(device), "devices.ini");
-	}
-	else {
-		returnCode = UNKNOWN_ERROR;
-	}
-	free(device);
+	//if (device != NULL) {
+	//	for (int i = 0; i < deviceCount; i++) {
+	//		strcpy(device, deviceList[i].deviceName);
+	//		strcat(device, ", kwh: ");
+	//		sprintf(ckwh, "%d", deviceList[i].kwh);
+	//		strcat(device, ckwh);
+	//		strcat(device, "; ");
+	//	}
+	//	returnCode = SaveToFile(&device, strlen(device), "devices.ini");
+	//}
+	//else {
+	//	returnCode = UNKNOWN_ERROR;
+	//}
 
+	//free(device);
 	return returnCode;
 }
