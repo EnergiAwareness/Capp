@@ -72,6 +72,12 @@
     <ClCompile Include="getHourPrices.c">
       <Filter>Source Files\BLL</Filter>
     </ClCompile>
+    <ClCompile Include="Prices.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PriceCalls.c">
+      <Filter>Source Files\BLL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Price.h">
