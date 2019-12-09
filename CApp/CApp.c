@@ -8,6 +8,7 @@ gruppe:
 #include "stdinHelper.h"
 #include "TextStrings.h"
 #include "ReturnErrors.h"
+#include "LoadFile.h"
 
 enum states
 {
