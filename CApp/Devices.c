@@ -1,14 +1,17 @@
-#include <string.h>
 #include <stdio.h>
+#include <time.h>
 #include "stdinHelper.h"
 #include "Devices.h"
 #include "ReturnErrors.h"
 #include "TextStrings.h"
 #include "FileHandler.h"
+#include "PriceData.h"
 
-#define MAX_DEVICE_NAME 50
+
 #define INT_MAX_CHAR 10
 #define ARRAY_SIZE 10
+
+
 
 enum state {
 	SELECTION = 0,
@@ -16,21 +19,96 @@ enum state {
 	CREATE_DEVICE = 1,
 	GET_BEST_PRICE = 2,
 	DELETE_A_DEVICE = 3,
-	EXIT = 9,
+	REGISTER = 1,
+	EXISTING = 2,
+	BACK = 9,
 };
 
-typedef struct Devices {
-	char deviceName[MAX_DEVICE_NAME];
-	int kwh;
-} devices;
+typedef struct _BestTime
+{
+	char timeStamp[11];
+	double price;
+}BestTime;
+
+devices* existingDevices = NULL;
 
 int ChooseDevice(int* selectedDevice);
 
-int Existing(void) {
-	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
-	devices* existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
+/*
+* Function: Devices
+* -------------------
+* Menu that handles the device menu selection 
+*
+* parameters: none
+*
+* returns: error code reflecting the execution status
+*/
+int Devices(void) {
+	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
+	existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
 
 	/*LoadCfg();*/
+
+	while (run)
+	{
+		errorCode = OK;
+		switch (state)
+		{
+		case SELECTION:
+		{
+			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(DEVICE_MENU));
+			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
+			{
+				state = SELECTION;
+				printf("%s\n", GetErrorCodeString(errorCode));
+			}
+			break;
+		}
+		case REGISTER:
+		{
+			if ((errorCode = RegisterDevice()) != OK)
+			{
+				printf("%s\n", GetErrorCodeString(errorCode));
+			}
+			state = SELECTION;
+			break;
+		}
+		case EXISTING:
+		{
+			if (Existing() != OK) {
+				printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+			}
+
+			state = SELECTION;
+			break;
+		}
+		case BACK:
+		{
+			run = 0;
+			returnCode = OK;
+			break;
+		}
+		default:
+			state = SELECTION;
+			printf("%s\n", GetTextString(INVALID_SELECTION));
+			break;
+		}
+	}
+
+	return returnCode;
+}
+
+/*
+* Function: Existing
+* --------------------------
+* Menu that handles existing devices
+*
+* parameters: none
+*
+* returns: error code reflecting the execution status
+*/
+int Existing(void) {
+	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
 
 	while (keepAlive) {
 
@@ -73,7 +151,7 @@ int Existing(void) {
 			state = SELECTION;
 			break;
 		}
-		case EXIT: {
+		case BACK: {
 			keepAlive = 0;
 			break;
 		}
@@ -87,6 +165,15 @@ int Existing(void) {
 	return OK;
 }
 
+/*
+* Function: ChooseDevice
+* --------------------------
+* Takes user input and and checks if device exists
+*
+* parameters: selectedDevice
+*
+* returns: error code reflecting user input
+*/
 int ChooseDevice(int* selectedDevice) {
 
 	printf("%s\n", GetTextString(ENTER_WANTED_DEVICE));
@@ -102,6 +189,15 @@ int ChooseDevice(int* selectedDevice) {
 	}
 }
 
+/*
+* Function: RegisterDevice
+* --------------------------
+* Menu that handles device registration
+* 
+* parameters: none 
+*
+* returns: error code reflecting the execution status
+*/
 int RegisterDevice(void) {
 	int state = 0, keepAlive = 1, errorCode = OK;
 	devices newdevice;
@@ -141,7 +237,7 @@ int RegisterDevice(void) {
 			}
 			break;
 		}
-		case EXIT: {
+		case BACK: {
 			keepAlive = 0;
 			break;
 		}
@@ -177,4 +273,27 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 
 	//free(device);
 	return returnCode;
+}
+
+int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
+{
+	int errorCode = UNKNOWN_ERROR, i = 0, startHour = 0, startMin = 0, totalMinUsed = 0;
+	time_t t = time(NULL);
+	struct tm tm = *localtime(&t);
+	_DateTimePrice* hourPrices = NULL;
+	BestTime bt;
+	size_t structSize = 0;
+	double price = 0;
+
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday+1, tm.tm_mon + 1, hourPrices, structSize)) == OK)
+	{
+		startHour = hourPrices[tm.tm_hour + (int)(((double)tm.tm_min + 5) / 60)].hourStart;
+		startMin = tm.tm_min + 5;
+
+		price = hourPrices[startHour].price * (  60 - startMin);
+		totalMinUsed -= 60 - startMin;
+
+	}
+
+	return errorCode;
 }
