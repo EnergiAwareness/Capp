@@ -7,6 +7,7 @@ int today() {
 	size_t structSize = 0;
 	int i = 0;
 	int errorCode;
+
 	if ((errorCode = ParseFileToStruct(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, &callPrices, &structSize)) != OK)
 		return (errorCode);
 
