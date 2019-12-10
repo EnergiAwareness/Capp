@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include "stdinHelper.h"
 #include "ReturnErrors.h"
-#include "Register.h"
 #include "TextStrings.h"
-#include "Existing.h"
 #include "PriceCalls.h"
+
 
 enum menu
 {
@@ -16,7 +15,7 @@ enum menu
 	BACK,
 };
 
-int Devices(void) {
+int Price(void) {
 
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
 
@@ -27,8 +26,7 @@ int Devices(void) {
 		{
 		case SELECTION:
 		{
-			printf("%s\n", GetTextString(SELET_A_NUMBER));
-			printf(" %s\n", GetTextString(PRICES_MENU));
+			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(PRICES_MENU));
 			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
 			{
 				state = SELECTION;
