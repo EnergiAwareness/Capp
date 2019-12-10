@@ -24,13 +24,21 @@ enum state {
 	BACK = 9,
 };
 
+typedef struct _BestTime
+{
+	char timeStamp[11];
+	double price;
+}BestTime;
+
 devices* existingDevices = NULL;
 
 int ChooseDevice(int* selectedDevice);
 
 int Devices(void) {
-
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
+	existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
+
+	/*LoadCfg();*/
 
 	while (run)
 	{
@@ -83,9 +91,6 @@ int Devices(void) {
 
 int Existing(void) {
 	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
-	existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
-
-	/*LoadCfg();*/
 
 	while (keepAlive) {
 
@@ -234,17 +239,23 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 	return returnCode;
 }
 
-int GetBestTime(devices dev, char* startTime)
+int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 {
-	int errorCode = UNKNOWN_ERROR;
+	int errorCode = UNKNOWN_ERROR, i = 0, startHour = 0, startMin = 0, totalMinUsed = 0;
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
-	_DateTimePrice* prices = NULL;
+	_DateTimePrice* hourPrices = NULL;
+	BestTime bt;
 	size_t structSize = 0;
+	double price = 0;
 
-	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday, tm.tm_mon, prices, structSize)) == OK)
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday+1, tm.tm_mon + 1, hourPrices, structSize)) == OK)
 	{
+		startHour = hourPrices[tm.tm_hour + (int)(((double)tm.tm_min + 5) / 60)].hourStart;
+		startMin = tm.tm_min + 5;
 
+		price = hourPrices[startHour].price * (  60 - startMin);
+		totalMinUsed -= 60 - startMin;
 
 	}
 
