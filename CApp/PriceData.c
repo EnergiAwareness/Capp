@@ -11,7 +11,7 @@ int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTi
 	char** loadedFileArray = NULL;
 	char* temp;
 	char delim[] = ";-";
-	double data[6];
+	double data[6] = { 0 }; 
 	
 	if ((errorCode = LoadFile("elspot-prices_2018_hourly_dkk.csv", &loadedFileArray, &fileHeight)) == OK) {
 		_DateTimePrice* builder = calloc(sizeof(_DateTimePrice), fileHeight);
