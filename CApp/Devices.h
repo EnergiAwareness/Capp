@@ -1,5 +1,5 @@
 #pragma once
 
-//#include "Devices.c"
+extern int Existing(void);
 
-extern int Devices(void);
+extern int RegisterDevice(void);

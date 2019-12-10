@@ -13,99 +13,72 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\BLL">
-      <UniqueIdentifier>{8413d006-331c-4eca-95f7-18648d501176}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\DAL">
-      <UniqueIdentifier>{3f0e0d15-4c01-40c2-8bcd-07c3c6f5e019}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\BLL">
-      <UniqueIdentifier>{10777681-941c-42b9-b225-b87b4e35971d}</UniqueIdentifier>
+      <UniqueIdentifier>{2308025d-a9a3-4563-9f32-64d2d28e8749}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\DAL">
-      <UniqueIdentifier>{9761dff2-0b64-4615-a860-b610634c0c27}</UniqueIdentifier>
+      <UniqueIdentifier>{67ac78d4-88f8-4b25-b128-4477bce79c33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Interface">
-      <UniqueIdentifier>{f0a83d3b-9c57-4d18-99cc-7b0111237b9a}</UniqueIdentifier>
+    <Filter Include="Header Files\BLL">
+      <UniqueIdentifier>{10cef39f-0b3b-4839-be9d-4e2bd6b89803}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Interface">
-      <UniqueIdentifier>{4e53c124-9bbe-40f8-8bb1-d8329b013d11}</UniqueIdentifier>
+    <Filter Include="Header Files\DAL">
+      <UniqueIdentifier>{220dd503-92db-45ba-a4d4-21c99a9a170e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Misc">
-      <UniqueIdentifier>{8ba5f1d7-671c-4fcc-adb1-649f18f9f31e}</UniqueIdentifier>
+      <UniqueIdentifier>{3cd22007-d2cc-47f0-b437-81741cd73859}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Misc">
-      <UniqueIdentifier>{adc4cc30-192d-4c57-87d1-9d92e120defc}</UniqueIdentifier>
+      <UniqueIdentifier>{5b829c78-1c3e-4062-befa-fc453594a501}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CApp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Devices.c">
-      <Filter>Source Files\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Price.c">
-      <Filter>Source Files\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Register.c">
-      <Filter>Source Files\BLL</Filter>
-    </ClCompile>
-    <ClCompile Include="stdinHelper.c">
+    <ClCompile Include="ReturnErrors.c">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="TextStrings.c">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="ReturnErrors.c">
+    <ClCompile Include="Devices.c">
+      <Filter>Source Files\BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="Prices.c">
+      <Filter>Source Files\BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="FileHandler.c">
+      <Filter>Source Files\DAL</Filter>
+    </ClCompile>
+    <ClCompile Include="PriceData.c">
+      <Filter>Source Files\DAL</Filter>
+    </ClCompile>
+    <ClCompile Include="StdinHelper.c">
       <Filter>Source Files\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Existing.c">
-      <Filter>Source Files\BLL</Filter>
-    </ClCompile>
-    <ClCompile Include="SaveToFile.c">
-      <Filter>Source Files\DAL</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadFile.c">
-      <Filter>Source Files\DAL</Filter>
-    </ClCompile>
-    <ClCompile Include="getHourPrices.c">
-      <Filter>Source Files\BLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Price.h">
-      <Filter>Header Files\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Devices.h">
-      <Filter>Header Files\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Register.h">
-      <Filter>Header Files\BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="stdinHelper.h">
-      <Filter>Header Files\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="ReturnErrors.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
     <ClInclude Include="TextStrings.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Existing.h">
+    <ClInclude Include="Devices.h">
       <Filter>Header Files\BLL</Filter>
     </ClInclude>
-    <ClInclude Include="SaveToFile.h">
-      <Filter>Header Files\DAL</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadFile.h">
-      <Filter>Header Files\DAL</Filter>
-    </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GetHourPrices.h">
+    <ClInclude Include="Prices.h">
       <Filter>Header Files\BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandler.h">
+      <Filter>Header Files\DAL</Filter>
+    </ClInclude>
+    <ClInclude Include="PriceData.h">
+      <Filter>Header Files\DAL</Filter>
+    </ClInclude>
+    <ClInclude Include="StdinHelper.h">
+      <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

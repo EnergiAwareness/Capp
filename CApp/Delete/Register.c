@@ -7,11 +7,11 @@
 #include "Structs.h"
 #include "SaveToFile.h"
 
-#define INT_MAX_CHAR 10
+
 
 enum States {
 	SELECTION,
-	CREATE_DEVICE,
+	CREATE_DEVICE = 1,
 	EXIT,
 };
 
@@ -79,7 +79,7 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 			strcat(device, ckwh);
 			strcat(device, "; ");
 		}
-		returnCode = SaveToFile(device, strlen(device));
+		returnCode = SaveToFile(device, strlen(device), "devices.ini");
 	}
 	else {
 		returnCode = UNKNOWN_ERROR;
