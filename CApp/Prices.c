@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <time.h>
 #include "Prices.h"
 #include "ReturnErrors.h"
@@ -14,10 +15,11 @@ int Today() {
 	_DateTimePrice* callPrices = NULL;
 	size_t structSize = 0;
 	int errorCode = UNKNOWN_ERROR;
-	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, &callPrices, &structSize)) == OK) {
 		PrintOutPriceData(callPrices, structSize);
 	}
 
+	free(callPrices);
 	return errorCode;
 }
 
@@ -28,10 +30,11 @@ int Tomorrow() {
 	size_t structSize = 0;
 	int errorCode = UNKNOWN_ERROR;
 
-	if ((errorCode = GetHourPrice(tm.tm_mday + 1, tm.tm_mon + 1, tm.tm_mday + 1, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
+	if ((errorCode = GetHourPrice(tm.tm_mday + 1, tm.tm_mon + 1, tm.tm_mday + 1, tm.tm_mon + 1, &callPrices, &structSize)) == OK) {
 		PrintOutPriceData(callPrices, structSize);
 	}
 
+	free(callPrices);
 	return errorCode;
 }
 
@@ -45,10 +48,11 @@ int Historical() {
 	printf("%s\n", GetTextString(DATE_INPUT));
 	scanf_s("%d:%d %d:%d", &tm.tm_mday, &tm.tm_mon + 1, &tm.tm_mday, &tm.tm_mon + 1);
 
-	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, &callPrices, &structSize)) == OK) {
 		PrintOutPriceData(callPrices, structSize);
 	}
 
+	free(callPrices);
 	return errorCode;
 }
 
