@@ -9,4 +9,4 @@ typedef struct _DateTimePrice {
 	double price;
 } _DateTimePrice;
 
-extern int ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct);
+extern int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct);

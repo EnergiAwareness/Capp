@@ -1,7 +1,7 @@
 #include "GetHourPrices.h"
 
 int ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct) {
-    int fileHeight, i;
+    int fileHeight = 0, i;
     char** loadedFileArray;
     char temp[256];
     size_t count = 0;
