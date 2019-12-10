@@ -34,6 +34,15 @@ devices* existingDevices = NULL;
 
 int ChooseDevice(int* selectedDevice);
 
+/*
+* Function: Devices
+* -------------------
+* Menu that handles the device menu selection 
+*
+* parameters: none
+*
+* returns: error code reflecting the execution status
+*/
 int Devices(void) {
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
 	existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
@@ -89,6 +98,15 @@ int Devices(void) {
 	return returnCode;
 }
 
+/*
+* Function: Existing
+* --------------------------
+* Menu that handles existing devices
+*
+* parameters: none
+*
+* returns: error code reflecting the execution status
+*/
 int Existing(void) {
 	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
 
@@ -147,6 +165,15 @@ int Existing(void) {
 	return OK;
 }
 
+/*
+* Function: ChooseDevice
+* --------------------------
+* Takes user input and and checks if device exists
+*
+* parameters: selectedDevice
+*
+* returns: error code reflecting user input
+*/
 int ChooseDevice(int* selectedDevice) {
 
 	printf("%s\n", GetTextString(ENTER_WANTED_DEVICE));
@@ -162,6 +189,15 @@ int ChooseDevice(int* selectedDevice) {
 	}
 }
 
+/*
+* Function: RegisterDevice
+* --------------------------
+* Menu that handles device registration
+* 
+* parameters: none 
+*
+* returns: error code reflecting the execution status
+*/
 int RegisterDevice(void) {
 	int state = 0, keepAlive = 1, errorCode = OK;
 	devices newdevice;
