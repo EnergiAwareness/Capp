@@ -14,7 +14,7 @@ int Today() {
 	_DateTimePrice* callPrices = NULL;
 	size_t structSize = 0;
 	int errorCode = UNKNOWN_ERROR;
-	if ((errorCode = ParseFileToStruct(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
 		PrintOutPriceData(callPrices, structSize);
 	}
 
@@ -29,7 +29,7 @@ int Tomorrow() {
 	int i = 0;
 	int errorCode = UNKNOWN_ERROR;
 
-	if ((errorCode = ParseFileToStruct(tm.tm_mday + 1, tm.tm_mon + 1, tm.tm_mday + 1, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
+	if ((errorCode = GetHourPrice(tm.tm_mday + 1, tm.tm_mon + 1, tm.tm_mday + 1, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
 		PrintOutPriceData(callPrices, structSize);
 	}
 
@@ -46,7 +46,7 @@ int Historical() {
 	printf("GetTextString\n", DATE_INPUT);
 	scanf_s("%d:%d %d:%d", &tm.tm_mday, &tm.tm_mon + 1, &tm.tm_mday, &tm.tm_mon + 1);
 
-	if ((errorCode = ParseFileToStruct(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, callPrices, &structSize)) == OK) {
 		PrintOutPriceData(callPrices, structSize);
 	}
 
