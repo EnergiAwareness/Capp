@@ -1,14 +1,17 @@
-#include <string.h>
 #include <stdio.h>
+#include <time.h>
 #include "stdinHelper.h"
 #include "Devices.h"
 #include "ReturnErrors.h"
 #include "TextStrings.h"
 #include "FileHandler.h"
+#include "PriceData.h"
 
-#define MAX_DEVICE_NAME 50
+
 #define INT_MAX_CHAR 10
 #define ARRAY_SIZE 10
+
+
 
 enum state {
 	SELECTION = 0,
@@ -16,19 +19,71 @@ enum state {
 	CREATE_DEVICE = 1,
 	GET_BEST_PRICE = 2,
 	DELETE_A_DEVICE = 3,
-	EXIT = 9,
+	REGISTER = 1,
+	EXISTING = 2,
+	BACK = 9,
 };
 
-typedef struct Devices {
-	char deviceName[MAX_DEVICE_NAME];
-	int kwh;
-} devices;
+devices* existingDevices = NULL;
 
 int ChooseDevice(int* selectedDevice);
 
+int Devices(void) {
+
+	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
+
+	while (run)
+	{
+		errorCode = OK;
+		switch (state)
+		{
+		case SELECTION:
+		{
+			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(DEVICE_MENU));
+			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
+			{
+				state = SELECTION;
+				printf("%s\n", GetErrorCodeString(errorCode));
+			}
+			break;
+		}
+		case REGISTER:
+		{
+			if ((errorCode = RegisterDevice()) != OK)
+			{
+				printf("%s\n", GetErrorCodeString(errorCode));
+			}
+			state = SELECTION;
+			break;
+		}
+		case EXISTING:
+		{
+			if (Existing() != OK) {
+				printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+			}
+
+			state = SELECTION;
+			break;
+		}
+		case BACK:
+		{
+			run = 0;
+			returnCode = OK;
+			break;
+		}
+		default:
+			state = SELECTION;
+			printf("%s\n", GetTextString(INVALID_SELECTION));
+			break;
+		}
+	}
+
+	return returnCode;
+}
+
 int Existing(void) {
 	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
-	devices* existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
+	existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
 
 	/*LoadCfg();*/
 
@@ -73,7 +128,7 @@ int Existing(void) {
 			state = SELECTION;
 			break;
 		}
-		case EXIT: {
+		case BACK: {
 			keepAlive = 0;
 			break;
 		}
@@ -141,7 +196,7 @@ int RegisterDevice(void) {
 			}
 			break;
 		}
-		case EXIT: {
+		case BACK: {
 			keepAlive = 0;
 			break;
 		}
@@ -177,4 +232,21 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 
 	//free(device);
 	return returnCode;
+}
+
+int GetBestTime(devices dev, char* startTime)
+{
+	int errorCode = UNKNOWN_ERROR;
+	time_t t = time(NULL);
+	struct tm tm = *localtime(&t);
+	_DateTimePrice* prices = NULL;
+	size_t structSize = 0;
+
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday, tm.tm_mon, prices, structSize)) == OK)
+	{
+
+
+	}
+
+	return errorCode;
 }
