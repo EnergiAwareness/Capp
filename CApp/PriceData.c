@@ -1,47 +1,39 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "PriceData.h"
 #include "ReturnErrors.h"
 #include "FileHandler.h"
 
-int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct) {
-	int fileHeight = 0, i = 0, errorCode = 0;
+
+int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, int* sizeOfStruct) {
+	int fileHeight = 0, i = 0, errorCode = UNKNOWN_ERROR;
 	char** loadedFileArray = NULL;
-	char temp[256];
-	size_t count = 0;
-
-	if ((errorCode = LoadFile("test.csv", &loadedFileArray, &fileHeight)) == OK)
-	{
-		_DateTimePrice builder;
-
+	char* temp;
+	int count = 0;
+	char delim[] = ";-";
+	int day, month;
+	
+	if ((errorCode = LoadFile("elspot-prices_2018_hourly_dkk.csv", &loadedFileArray, &fileHeight)) == OK) {
+		_DateTimePrice* builder = calloc(sizeof(_DateTimePrice), fileHeight);
+		
 		for (i = 0; i < fileHeight; i++) {
-			//fix this!!!!!
-			strncpy(temp, loadedFileArray[i], 2);
-			builder.day = atoi(temp);
-
-			strncpy(temp, loadedFileArray[i] + 3, 2);
-			builder.month = atoi(temp);
-
-			strncpy(temp, loadedFileArray[i] + 6, 4);
-			builder.year = atoi(temp);
-
-			strncpy(temp, loadedFileArray[i] + 11, 2);
-			builder.hourStart = atoi(temp);
-
-			strncpy(temp, loadedFileArray[i] + 14, 2);
-			builder.hourEnd = atoi(temp);
-
-			strncpy(temp, loadedFileArray[i] + 16, strlen(loadedFileArray[i] + 16));
-			builder.price = atof(temp);
-
-			if (startDay <= builder.day && startMonth <= builder.month
-				&& endMonth >= builder.month && endDay >= builder.day) {
-				dateTimePrice[i] = builder;
+			temp = strtok(loadedFileArray[i], delim);
+			day = getc(temp[0]);
+			month = getc(temp[1]);
+			if ((startDay >= day && startMonth >= month) || (endDay <= day && endMonth <= month)) {
+				builder[i].day = atoi(temp[0]);
+				builder[i].month = atoi(temp[1]);
+				builder[i].year = atoi(temp[2]);
+				builder[i].hourStart = atoi(temp[3]);
+				builder[i].hourEnd = atoi(temp[4]);
+				builder[i].price = atof(temp[5]);
 				count++;
 			}
+			temp = strtok(NULL, delim);
 		}
 	}
 
 	*sizeOfStruct = count;
 	return errorCode;
-	/* Enter a return value */
 }
