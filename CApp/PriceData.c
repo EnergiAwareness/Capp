@@ -3,7 +3,7 @@
 #include "ReturnErrors.h"
 #include "FileHandler.h"
 
-int ParseFileToStruct(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct) {
+int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTimePrice* dateTimePrice, size_t* sizeOfStruct) {
 	int fileHeight = 0, i = 0, errorCode = 0;
 	char** loadedFileArray = NULL;
 	char temp[256];
