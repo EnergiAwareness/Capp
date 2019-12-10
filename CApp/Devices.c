@@ -33,7 +33,7 @@ typedef struct _BestTime
 devices* existingDevices = NULL;
 
 int ChooseDevice(int* selectedDevice);
-
+void PrintOutPriceData2(_DateTimePrice* prices, int cnt);
 /*
 * Function: Devices
 * -------------------
@@ -128,13 +128,14 @@ int Existing(void) {
 			break;
 		}
 		case GET_BEST_PRICE: {
-			if (ChooseDevice(&selectedDevice) != OK) {
-				printf("%s\n", GetTextString(NO_DEVICE_TO_GET_PRICE_ON));
-			}
-			else {
-				/*GetBestPrice(existingDevices[selectedDevice]);*/  //funktion skal laves
-			}
-
+			//if (ChooseDevice(&selectedDevice) != OK) {
+			//	printf("%s\n", GetTextString(NO_DEVICE_TO_GET_PRICE_ON));
+			//}
+			//else {
+			//	/*GetBestPrice(existingDevices[selectedDevice]);*/  //funktion skal laves
+			//}
+			BestTime bt;
+			GetBestTime(&bt, 80);
 			state = SELECTION;
 			break;
 		}
@@ -277,23 +278,82 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 
 int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 {
-	int errorCode = UNKNOWN_ERROR, i = 0, startHour = 0, startMin = 0, totalMinUsed = 0;
+	int errorCode = UNKNOWN_ERROR, i = 0, startHourPosition = 0, startMin = 0, minLeft = 0, minTemp = 0, hourTemp = 0;
+	int foundStartHour = 0, foundStartMin = 0, pos = 0, nextDay = 0;
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
 	_DateTimePrice* hourPrices = NULL;
-	BestTime bt;
 	size_t structSize = 0;
-	double price = 0;
+	double price = 0, newPrice = 0;
 
-	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday+1, tm.tm_mon + 1, hourPrices, structSize)) == OK)
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday+1, tm.tm_mon, &hourPrices, &structSize)) == OK)
 	{
-		startHour = hourPrices[tm.tm_hour + (int)(((double)tm.tm_min + 5) / 60)].hourStart;
-		startMin = tm.tm_min + 5;
+		minLeft = runTimeInMinutes;
+		for (i = 0; i < structSize; i++)
+			hourPrices[i].price = hourPrices[i].price / 1000 / 60; //convert mwh to kwh then hour to minut
 
-		price = hourPrices[startHour].price * (  60 - startMin);
-		totalMinUsed -= 60 - startMin;
+		PrintOutPriceData(hourPrices, structSize);//Debug !!
+
+		startHourPosition = tm.tm_hour + (int)(((double)tm.tm_min + 5) / 60); //find start position of time data.
+		startMin = (tm.tm_min + 5) % 60;//find start min within the hour
+
+		price = hourPrices[startHourPosition].price * (60 - startMin); //calculate price for the firste hour and minutes
+		minLeft = runTimeInMinutes - (60 - startMin); // find amount of minutes left
+		hourTemp = minLeft / 60; // find hours left
+		minLeft = minLeft % 60; // find minutes left after hours has been subtracted
+		
+		for (i = 1; i <= hourTemp; i++)
+		{
+			price += hourPrices[startHourPosition + i].price * 60; // add x hours price to the total price
+		}
+		
+		price += hourPrices[startHourPosition + hourTemp + 1].price * minLeft; //add price for the last minutes
+		//price for starting window has now been calculated
+		minLeft = ((48 - startHourPosition + hourTemp) * 60) + (60 - startMin);
+
+		hourTemp += startHourPosition + 1; //hour offset
+		minTemp = (runTimeInMinutes % 60) + startMin - runTimeInMinutes; //minute offset
+		newPrice = price;
+		
+		/*int time1 = 0;
+		int time2 = 0;
+		int time3 = 0;
+		int time4 = 0;*/
+
+		int const1 = hourTemp - runTimeInMinutes / 60;
+
+		for (i = 0; i < minLeft; i++)
+		{
+			/*time1 = hourTemp + ((minTemp + i) / 60);
+			time2 = (minTemp + i) % 60;
+			time3 = const1 + (startMin + i) / 60;
+			time4 = (startMin + i) % 60;
+			printf("%d, %d - %d, %d\n", time1, time2, time3, time4);*/
+
+			newPrice += hourPrices[hourTemp + ((minTemp + i) / 60)].price;
+			newPrice -= hourPrices[const1 + (startMin + i) / 60].price;
+			if (newPrice < price)
+			{
+				price = newPrice;
+				pos = const1 + (startMin + i) / 60;
+				if (pos > 23)
+					nextDay = 1;
+				foundStartHour = hourPrices[pos].hourStart;
+				foundStartMin = (startMin + i) % 60;
+				printf("%f, %d, %d, %d, %d\n", price, pos, nextDay, foundStartHour, foundStartMin);
+			}
+
+		}
 
 	}
 
 	return errorCode;
+}
+
+void PrintOutPriceData2(_DateTimePrice* prices, int cnt)
+{
+	int i;
+	for (i = 0; i < cnt; i++) {
+		printf("%d - %d %d-%d: %.6f dkk\n", prices[i].day, prices[i].month, prices[i].hourStart, prices[i].hourEnd, prices[i].price);
+	}
 }
