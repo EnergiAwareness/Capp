@@ -60,6 +60,6 @@ void PrintOutPriceData(_DateTimePrice* prices, int cnt)
 {
 	int i;
 	for (i = 0; i < cnt; i++) {
-		printf("%d - %d %d-%d: %2.lf dkk\n", prices[i].day, prices[i].month, prices[i].hourStart, prices[i].hourEnd, prices[i].price);
+		printf("%2d - %2d %2d - %2d: %7.3lf kr.\n", prices[i].day, prices[i].month, prices[i].hourStart, prices[i].hourEnd, prices[i].price);
 	}
 }
