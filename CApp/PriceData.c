@@ -41,7 +41,6 @@ int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTi
 
 		for (i = 0; i < count; i++)
 		{
-			printf("%d - %d %d-%d: %2.lf dkk\n", builder[i].day, builder[i].month, builder[i].hourStart, builder[i].hourEnd, builder[i].price);
 			(*dateTimePrice + i)->day = builder[i].day;
 			(*dateTimePrice + i)->month = builder[i].month;
 			(*dateTimePrice + i)->year = builder[i].year;
