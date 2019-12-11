@@ -10,6 +10,7 @@ char* errorStrings[TOTAL_RETURN_VALUES] = {
 	"Cannot save the file",
 	"Existing failed"
     "File not found"
+	"Could not convert string to struct"
 };
 
 char* GetErrorCodeString(int value)

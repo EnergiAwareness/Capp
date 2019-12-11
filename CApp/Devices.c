@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 #include "stdinHelper.h"
 #include "Devices.h"
 #include "ReturnErrors.h"
@@ -227,7 +228,7 @@ int RegisterDevice(void) {
 					state = SELECTION;
 				}
 				else {
-					/*SaveCfg(newdevice, 1);*/
+					/*SaveCfg(existingDevices, missing);*/
 					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
 
 					state = SELECTION;
@@ -254,25 +255,52 @@ int RegisterDevice(void) {
 }
 
 int SaveCfg(devices deviceList[], int deviceCount) {
-	/*char device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
-	char ckwh[MAX_DEVICE_NAME];*/
+	char device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
+	char ckwh[MAX_DEVICE_NAME];
 	int returnCode = OK;
 
-	//if (device != NULL) {
-	//	for (int i = 0; i < deviceCount; i++) {
-	//		strcpy(device, deviceList[i].deviceName);
-	//		strcat(device, ", kwh: ");
-	//		sprintf(ckwh, "%d", deviceList[i].kwh);
-	//		strcat(device, ckwh);
-	//		strcat(device, "; ");
-	//	}
-	//	returnCode = SaveToFile(&device, strlen(device), "devices.ini");
-	//}
-	//else {
-	//	returnCode = UNKNOWN_ERROR;
-	//}
+	if (device != NULL) {
+		for (int i = 0; i < deviceCount; i++) {
+			strcpy(device, deviceList[i].deviceName);
+			strcat(device, ";");
+			sprintf(ckwh, "%d", deviceList[i].kwh);
+			strcat(device, ckwh);
+			strcat(device, "\n");
+		}
+		returnCode = SaveToFile(&device, strlen(device), "devices.ini");
+	}
+	else {
+		returnCode = UNKNOWN_ERROR;
+	}
 
-	//free(device);
+	free(device);
+	return returnCode;
+}
+
+int LoadCfg(devices deviceList[]) {
+	int returnCode = UNKNOWN_ERROR, fileHeight = 0, i = 0;
+	char** loadedFileArray = NULL;
+	char delim[] = ";";
+	char* temp;
+
+	if ((returnCode = LoadFile("elspot-prices_2018_hourly_dkk.csv", &loadedFileArray, &fileHeight)) == OK) {
+		for (i = 0; i < fileHeight; i++) {
+			temp = strtok(loadedFileArray[i], delim);
+			if (temp != NULL) {
+				strcpy(deviceList[i].deviceName, temp);
+				temp = strtok(NULL, delim);
+				if (temp != NULL) {
+					deviceList[i].kwh = atoi(temp);
+				}
+				else {
+					returnCode = UNABLE_TO_DECODE_DEVICE_CONFIG;
+				}
+			}
+			else {
+				returnCode = UNABLE_TO_DECODE_DEVICE_CONFIG;
+			}
+		}
+	}
 	return returnCode;
 }
 
