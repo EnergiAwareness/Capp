@@ -108,7 +108,7 @@ int Devices(void) {
 * returns: error code reflecting the execution status
 */
 int Existing(void) {
-	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0;
+	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0, minToRun = 0;
 
 	while (keepAlive) {
 
@@ -134,9 +134,9 @@ int Existing(void) {
 			}
 			else {
 				printf("%s\n", GetTextString(GET_RUN_TIME_IN_MINUTES));
-				GetBestTime(&bt, 10);
+				GetIntegerFromStdin(&minToRun);
+				GetBestTime(&bt, minToRun);
 			}
-			
 			state = SELECTION;
 			break;
 		}
