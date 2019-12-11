@@ -113,19 +113,21 @@ int Devices(void) {
 * returns: error code reflecting the execution status
 */
 int Existing(void) {
-	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0, minToRun = 0;
+	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0, minToRun = 0, returnCode = OK;
 
 	while (keepAlive) {
 
 		switch (state) {
 		case SELECTION: {
 			printf("%s\n", GetTextString(EXISTING_MENU));
-			GetIntegerFromStdin(&state);
+			if ((returnCode = GetIntegerFromStdin(&state)) != OK) {
+
+			}
 			break;
 		}
 		case LISTE_ALL_DEVICES: {
 
-			for (i = 0; i < 3; i++) {
+			for (i = 0; i < deviceCounter; i++) {
 				printf("Device: %d\nName: %s\nkWh: %d\n\n", i + 1, existingDevices[i].deviceName, existingDevices[i].kwh);
 			}
 
@@ -134,8 +136,8 @@ int Existing(void) {
 		}
 		case GET_BEST_PRICE: {
 			BestTime bt;
-			if (ChooseDevice(&selectedDevice) != OK) {
-				printf("%s\n", GetTextString(NO_DEVICE_TO_GET_PRICE_ON));
+			if ((returnCode = ChooseDevice(&selectedDevice)) != OK) {
+				printf("%s\n", GetTextString(returnCode));
 			}
 			else {
 				printf("%s\n", GetTextString(GET_RUN_TIME_IN_MINUTES));
@@ -146,12 +148,16 @@ int Existing(void) {
 			break;
 		}
 		case DELETE_A_DEVICE: {
-			if (ChooseDevice(&selectedDevice) != OK) {
-				printf("%s\n", GetTextString(COULD_NOT_DELETE_DEVICE));
+			if ((returnCode = ChooseDevice(&selectedDevice)) != OK) {
+				printf("%s\n", GetTextString(returnCode));
 			}
 			else {
-				strcpy(existingDevices[selectedDevice - 1].deviceName, "\0");
-				existingDevices[selectedDevice - 1].kwh = 0;
+				for (i = selectedDevice; i < deviceCounter; i++) {
+					existingDevices[i - 1] = existingDevices[i];
+				}
+				deviceCounter--;
+				existingDevices = realloc(existingDevices, deviceCounter * sizeof(devices));
+				SaveCfg(existingDevices, deviceCounter);
 
 				printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
 			}
@@ -169,7 +175,7 @@ int Existing(void) {
 		}
 		}
 	}
-	return OK;
+	return returnCode;
 }
 
 /*
@@ -185,15 +191,7 @@ int ChooseDevice(int* selectedDevice) {
 
 	printf("%s\n", GetTextString(ENTER_WANTED_DEVICE));
 
-	if (GetIntegerFromStdin(selectedDevice) != OK) {
-
-		printf("%s\n", GetErrorCodeString(INPUT_WAS_NOT_A_NUMBER));
-		return INPUT_WAS_NOT_A_NUMBER;
-	}
-	else {
-
-		return OK;
-	}
+	return GetIntegerFromStdin(selectedDevice);
 }
 
 /*
