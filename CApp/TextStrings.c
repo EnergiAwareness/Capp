@@ -19,6 +19,7 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"1. Today\n2. Tomorrow\n3. Historical\n9. Back",
 	"1. Register a new device\n2. Select a existing device\n9. Exit to main menu",
 	"1. Price\n2. Devices\n3. About\n4. Exit program",
+	"Enter run time for the device in minutes",
 };
 
 

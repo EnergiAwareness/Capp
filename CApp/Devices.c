@@ -33,7 +33,6 @@ typedef struct _BestTime
 devices* existingDevices = NULL;
 
 int ChooseDevice(int* selectedDevice);
-void PrintOutPriceData2(_DateTimePrice* prices, int cnt);
 /*
 * Function: Devices
 * -------------------
@@ -128,14 +127,15 @@ int Existing(void) {
 			break;
 		}
 		case GET_BEST_PRICE: {
-			//if (ChooseDevice(&selectedDevice) != OK) {
-			//	printf("%s\n", GetTextString(NO_DEVICE_TO_GET_PRICE_ON));
-			//}
-			//else {
-			//	/*GetBestPrice(existingDevices[selectedDevice]);*/  //funktion skal laves
-			//}
 			BestTime bt;
-			GetBestTime(&bt, 80);
+			if (ChooseDevice(&selectedDevice) != OK) {
+				printf("%s\n", GetTextString(NO_DEVICE_TO_GET_PRICE_ON));
+			}
+			else {
+				printf("%s\n", GetTextString(GET_RUN_TIME_IN_MINUTES));
+				GetBestTime(&bt, 10);
+			}
+			
 			state = SELECTION;
 			break;
 		}
@@ -290,7 +290,9 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 	{
 		minLeft = runTimeInMinutes;
 		for (i = 0; i < structSize; i++)
+		{
 			hourPrices[i].price = hourPrices[i].price / 1000 / 60; //convert mwh to kwh then hour to minut
+		}
 
 		startHourPosition = tm.tm_hour + (int)(((double)tm.tm_min + 5) / 60); //find start position of time data.
 		startMin = (tm.tm_min + 5) % 60;//find start min within the hour
@@ -309,9 +311,8 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 		//price for starting window has now been calculated
 		minLeft = ((48 - startHourPosition + hourTemp) * 60) + (60 - startMin);
 
-		hourTemp += startHourPosition + 1; //hour offset
-		//minTemp = 60 - (((runTimeInMinutes % 60) +  (60 - startMin)) % 60); //minute offset
-		minTemp = (runTimeInMinutes % 60) + startMin; //minute offset
+		hourTemp += startHourPosition + (60 - startMin) / 60; //hour offset
+		minTemp = ((runTimeInMinutes % 60) + startMin) % 60; //minute offset
 		newPrice = price;
 		
 		int time1 = 0;
@@ -319,7 +320,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 		int time3 = 0;
 		int time4 = 0;
 
-		int const1 = hourTemp - runTimeInMinutes / 60;
+		int const1 = startHourPosition;// hourTemp - runTimeInMinutes / 60;
 
 		for (i = 0; i < minLeft; i++)
 		{
@@ -329,7 +330,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 			time4 = (startMin + i) % 60;
 			printf("%d, %d - %d, %d\n", time1, time2, time3, time4);
 
-			newPrice += hourPrices[hourTemp + ((minTemp + i) / 60)].price;
+			newPrice += hourPrices[hourTemp + (minTemp + i) / 60].price;
 			newPrice -= hourPrices[const1 + (startMin + i) / 60].price;
 			if (newPrice < price)
 			{
@@ -345,12 +346,4 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 	}
 
 	return errorCode;
-}
-
-void PrintOutPriceData2(_DateTimePrice* prices, int cnt)
-{
-	int i;
-	for (i = 0; i < cnt; i++) {
-		printf("%d - %d %d-%d: %.6f dkk\n", prices[i].day, prices[i].month, prices[i].hourStart, prices[i].hourEnd, prices[i].price);
-	}
 }
