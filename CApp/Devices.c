@@ -233,7 +233,10 @@ int RegisterDevice(void) {
 					state = SELECTION;
 				}
 				else {
-					/*SaveCfg(existingDevices, missing);*/
+					deviceCounter++;
+					existingDevices = realloc(existingDevices, deviceCounter * sizeof(devices));
+
+					SaveCfg(existingDevices, deviceCounter);
 					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
 
 					state = SELECTION;
@@ -260,7 +263,7 @@ int RegisterDevice(void) {
 }
 
 int SaveCfg(devices deviceList[], int deviceCount) {
-	char device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
+	char* device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
 	char ckwh[MAX_DEVICE_NAME];
 	int returnCode = OK;
 
