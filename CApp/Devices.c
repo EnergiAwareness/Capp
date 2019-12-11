@@ -292,8 +292,6 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 		for (i = 0; i < structSize; i++)
 			hourPrices[i].price = hourPrices[i].price / 1000 / 60; //convert mwh to kwh then hour to minut
 
-		PrintOutPriceData(hourPrices, structSize);//Debug !!
-
 		startHourPosition = tm.tm_hour + (int)(((double)tm.tm_min + 5) / 60); //find start position of time data.
 		startMin = (tm.tm_min + 5) % 60;//find start min within the hour
 
@@ -312,23 +310,24 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 		minLeft = ((48 - startHourPosition + hourTemp) * 60) + (60 - startMin);
 
 		hourTemp += startHourPosition + 1; //hour offset
-		minTemp = (runTimeInMinutes % 60) + startMin - runTimeInMinutes; //minute offset
+		//minTemp = 60 - (((runTimeInMinutes % 60) +  (60 - startMin)) % 60); //minute offset
+		minTemp = (runTimeInMinutes % 60) + startMin; //minute offset
 		newPrice = price;
 		
-		/*int time1 = 0;
+		int time1 = 0;
 		int time2 = 0;
 		int time3 = 0;
-		int time4 = 0;*/
+		int time4 = 0;
 
 		int const1 = hourTemp - runTimeInMinutes / 60;
 
 		for (i = 0; i < minLeft; i++)
 		{
-			/*time1 = hourTemp + ((minTemp + i) / 60);
+			time1 = hourTemp + ((minTemp + i) / 60);
 			time2 = (minTemp + i) % 60;
 			time3 = const1 + (startMin + i) / 60;
 			time4 = (startMin + i) % 60;
-			printf("%d, %d - %d, %d\n", time1, time2, time3, time4);*/
+			printf("%d, %d - %d, %d\n", time1, time2, time3, time4);
 
 			newPrice += hourPrices[hourTemp + ((minTemp + i) / 60)].price;
 			newPrice -= hourPrices[const1 + (startMin + i) / 60].price;
@@ -342,9 +341,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 				foundStartMin = (startMin + i) % 60;
 				printf("%f, %d, %d, %d, %d\n", price, pos, nextDay, foundStartHour, foundStartMin);
 			}
-
 		}
-
 	}
 
 	return errorCode;
