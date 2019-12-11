@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <string.h>
 #include "stdinHelper.h"
@@ -12,7 +13,7 @@
 #define INT_MAX_CHAR 10
 #define ARRAY_SIZE 10
 #define DEVICE_FILE "devices.ini"
-
+#define MAX_DEVICE_NAME 50
 
 enum state {
 	SELECTION = 0,
@@ -25,11 +26,17 @@ enum state {
 	BACK = 9,
 };
 
+typedef struct Devices {
+	char deviceName[MAX_DEVICE_NAME];
+	double kwh;
+} devices;
+
 typedef struct _BestTime
 {
-	char timeStamp[11];
+	char timeStamp[30];
 	double price;
 }BestTime;
+
 
 devices* existingDevices = NULL;
 int deviceCounter = 0;
@@ -46,7 +53,7 @@ int ChooseDevice(int* selectedDevice);
 */
 int Devices(void) {
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
-
+	
 	LoadCfg(&existingDevices, &deviceCounter);
 
 	while (run)
@@ -99,7 +106,7 @@ int Devices(void) {
 			break;
 		}
 	}
-
+	free(existingDevices);
 	return returnCode;
 }
 
@@ -128,40 +135,67 @@ int Existing(void) {
 		case LISTE_ALL_DEVICES: {
 
 			for (i = 0; i < deviceCounter; i++) {
-				printf("Device: %d\nName: %s\nkWh: %d\n\n", i + 1, existingDevices[i].deviceName, existingDevices[i].kwh);
+				printf("|Device nr: %d | Name: %s | kWh: %2.2lf|\n", i + 1, existingDevices[i].deviceName, existingDevices[i].kwh);
 			}
 
 			state = SELECTION;
 			break;
 		}
 		case GET_BEST_PRICE: {
-			BestTime bt;
-			if ((returnCode = ChooseDevice(&selectedDevice)) != OK) {
-				printf("%s\n", GetTextString(returnCode));
-			}
-			else {
+
+			if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
 				printf("%s\n", GetTextString(GET_RUN_TIME_IN_MINUTES));
-				GetIntegerFromStdin(&minToRun);
-				GetBestTime(&bt, minToRun);
+				if ((returnCode = GetIntegerFromStdin(&minToRun)) == OK)
+				{
+					BestTime bt;
+					if ((returnCode = GetBestTime(&bt, minToRun)) == OK) {
+						printf("|Start: %s | price kWh DKK: %2.3lf | cost: %2.3lf DKK|\n", bt.timeStamp, bt.price, existingDevices[selectedDevice - 1].kwh * bt.price);
+					}
+				}
 			}
+
+			if (returnCode != OK)
+			{
+				printf("%s\n", GetErrorCodeString(returnCode));
+			}
+
 			state = SELECTION;
 			break;
 		}
 		case DELETE_A_DEVICE: {
-			if ((returnCode = ChooseDevice(&selectedDevice)) != OK) {
-				printf("%s\n", GetTextString(returnCode));
-			}
-			else {
+			if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
+				
 				for (i = selectedDevice; i < deviceCounter; i++) {
 					existingDevices[i - 1] = existingDevices[i];
 				}
 				deviceCounter--;
-				existingDevices = realloc(existingDevices, deviceCounter * sizeof(devices));
-				SaveCfg(existingDevices, deviceCounter);
 
-				printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
+				if (deviceCounter == 0)
+				{
+					free(existingDevices);
+				}
+				else
+				{
+					devices* d = realloc(existingDevices, deviceCounter * sizeof(devices));
+					if (d != NULL)
+					{
+						existingDevices = d;
+						
+						printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
+					}
+					else
+					{
+						returnCode = ALLOCATING_MEMORY_FAILED;
+					}
+				}
+				SaveCfg(existingDevices, deviceCounter);
 			}
-			state = SELECTION;
+
+			if (returnCode != OK)
+			{
+				printf("%s\n", GetTextString(returnCode));
+			}
+			state = BACK;
 			break;
 		}
 		case BACK: {
@@ -188,10 +222,16 @@ int Existing(void) {
 * returns: error code reflecting user input
 */
 int ChooseDevice(int* selectedDevice) {
+	int returnCode = UNKNOWN_ERROR;
 
-	printf("%s\n", GetTextString(ENTER_WANTED_DEVICE));
+	printf("%s\n", GetTextString(ENTER_DEVICE_NUMBER));
+	returnCode = GetIntegerFromStdin(selectedDevice);
+	if (*selectedDevice < 0 || *selectedDevice > deviceCounter)
+	{
+		returnCode = SELECTED_OUT_OF_BOUND;		
+	}
 
-	return GetIntegerFromStdin(selectedDevice);
+	return returnCode;
 }
 
 /*
@@ -206,6 +246,7 @@ int ChooseDevice(int* selectedDevice) {
 int RegisterDevice(void) {
 	int state = 0, keepAlive = 1, errorCode = OK;
 	devices newdevice;
+	//devices* existingDevices;
 
 	while (keepAlive) {
 
@@ -226,17 +267,27 @@ int RegisterDevice(void) {
 			if ((errorCode = GetStringFromStdin(newdevice.deviceName, MAX_DEVICE_NAME)) == OK) {
 				printf("%s\n", GetTextString(ENTER_POWER_USAGE_OF_DEVICE));
 
-				if ((errorCode = GetIntegerFromStdin(&newdevice.kwh)) != OK) {
+				if ((errorCode = GetDoubleFromStdin(&newdevice.kwh)) != OK) {
 					printf("%s\n", GetErrorCodeString(errorCode));
 					state = SELECTION;
 				}
 				else {
+
 					deviceCounter++;
-					existingDevices = realloc(existingDevices, deviceCounter * sizeof(devices));
 
-					SaveCfg(existingDevices, deviceCounter);
-					printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
-
+					devices* d =  realloc(existingDevices, deviceCounter * sizeof(devices));
+					if (d != NULL)
+					{
+						existingDevices = d;
+						strcpy(existingDevices[deviceCounter - 1].deviceName, newdevice.deviceName);
+						existingDevices[deviceCounter - 1].kwh = newdevice.kwh;
+						SaveCfg(existingDevices, deviceCounter);
+						printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
+					}
+					else
+					{
+						printf("%s\n", GetErrorCodeString(ALLOCATING_MEMORY_FAILED));
+					}
 					state = SELECTION;
 				}
 			}
@@ -261,22 +312,35 @@ int RegisterDevice(void) {
 }
 
 int SaveCfg(devices deviceList[], int deviceCount) {
-	char* device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
+	char* device;
 	char ckwh[MAX_DEVICE_NAME];
 	int returnCode = OK;
 
-	if (device != NULL) {
-		for (int i = 0; i < deviceCount; i++) {
-			strcpy(device, deviceList[i].deviceName);
-			strcat(device, ";");
-			sprintf(ckwh, "%d", deviceList[i].kwh);
-			strcat(device, ckwh);
-			strcat(device, "\n");
+	if (deviceCount > 0)
+	{
+		device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
+		if (device != NULL) {
+			for (int i = 0; i < deviceCount; i++) {
+				printf("device :%s %lf\n", deviceList[i].deviceName, deviceList[i].kwh);
+				strcat(device, deviceList[i].deviceName);
+				strcat(device, ";");
+				sprintf(ckwh, "%lf", deviceList[i].kwh);
+				strcat(device, ckwh);
+				strcat(device, "\n");
+
+			}
+			printf("string: %s\n", device);
+			returnCode = SaveToFile(device, strlen(device), DEVICE_FILE);
 		}
-		returnCode = SaveToFile(&device, strlen(device), DEVICE_FILE);
+		else {
+			returnCode = UNKNOWN_ERROR;
+		}
 	}
-	else {
-		returnCode = UNKNOWN_ERROR;
+	else
+	{
+		device = calloc(1, MAX_DEVICE_NAME + INT_MAX_CHAR);
+		strcpy(device, "\0");
+		returnCode = SaveToFile(device, strlen(device), DEVICE_FILE);
 	}
 
 	free(device);
@@ -284,7 +348,7 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 }
 
 int LoadCfg(devices** deviceList, int* counter) {
-	int returnCode = UNKNOWN_ERROR, fileHeight = 0, i = 0;
+	int returnCode = UNKNOWN_ERROR, fileHeight = 0, i = 0, cnt = 0;
 	char** loadedFileArray = NULL;
 	char delim[] = ";";
 	char* temp;
@@ -294,23 +358,27 @@ int LoadCfg(devices** deviceList, int* counter) {
 		*deviceList = calloc(fileHeight, sizeof(devices));
 
 		for (i = 0; i < fileHeight; i++) {
-			temp = strtok(loadedFileArray[i], delim);
-			if (temp != NULL) {
-				strcpy((*deviceList + i)->deviceName, temp);
-				temp = strtok(NULL, delim);
+			if (strlen(loadedFileArray[i]) > 1){
+
+				temp = strtok(loadedFileArray[i], delim);
 				if (temp != NULL) {
-					(*deviceList + i)->kwh = atoi(temp);
-					counter++;
+					strcpy((*deviceList + i)->deviceName, temp);
+						temp = strtok(NULL, delim);
+						if (temp != NULL) {
+							(*deviceList + i)->kwh = atof(temp);
+								cnt++;
+						}
+						else {
+							returnCode = UNABLE_TO_DECODE_DEVICE_CONFIG;
+						}
 				}
 				else {
 					returnCode = UNABLE_TO_DECODE_DEVICE_CONFIG;
 				}
 			}
-			else {
-				returnCode = UNABLE_TO_DECODE_DEVICE_CONFIG;
-			}
 		}
 	}
+	*counter = cnt;
 	return returnCode;
 }
 
@@ -318,11 +386,12 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 {
 	int errorCode = UNKNOWN_ERROR, i = 0, startHourPosition = 0, startMin = 0, minLeft = 0, minTemp = 0, hourTemp = 0;
 	int foundStartHour = 0, foundStartMin = 0, pos = 0, nextDay = 0;
+	double price = 0, newPrice = 0;
+
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
 	_DateTimePrice* hourPrices = NULL;
 	size_t structSize = 0;
-	double price = 0, newPrice = 0;
 
 	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday+1, tm.tm_mon, &hourPrices, &structSize)) == OK)
 	{
@@ -372,7 +441,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 				time2 = (minTemp + i) % 60;
 				time3 = const1 + (startMin + i) / 60;
 				time4 = (startMin + i) % 60;
-				printf("%d, %d - %d, %d\n", time1, time2, time3, time4);
+				//printf("%d, %d - %d, %d\n", time1, time2, time3, time4);
 			}
 			
 
@@ -386,9 +455,12 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 					nextDay = 1;
 				foundStartHour = hourPrices[pos].hourStart;
 				foundStartMin = (startMin + i) % 60;
-				printf("%f, %d, %d, %d, %d\n", price, pos, nextDay, foundStartHour, foundStartMin);
+				//printf("%f, %d, %d, %d, %d\n", price, pos, nextDay, foundStartHour, foundStartMin);
 			}
+			errorCode = OK;
 		}
+		bestTimeToStart->price = newPrice * 60; //convert min to hour
+		sprintf(bestTimeToStart->timeStamp,"%2d-%2d-%4d : %2d:%2d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, foundStartHour, foundStartMin);
 	}
 
 	return errorCode;

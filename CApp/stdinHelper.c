@@ -42,6 +42,19 @@ int GetIntegerFromStdin(int* Variable)
 	return returnCode;
 }
 
+int GetDoubleFromStdin(double* Variable)
+{
+	int returnCode = OK;
+
+	if (scanf("%lf", Variable) == 0)
+	{
+		returnCode = INPUT_WAS_NOT_A_NUMBER;
+	}
+	ClearStdinBuffer();
+
+	return returnCode;
+}
+
 int GetStringFromStdin(char *string, int maxLength) 
 {
 	int returnCode = UNKNOWN_ERROR;
