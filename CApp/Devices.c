@@ -334,13 +334,17 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 		{
 			price += hourPrices[startHourPosition + i].price * 60; // add x hours price to the total price
 		}
-		
+		if (hourTemp)
+			hourTemp++;
+
 		price += hourPrices[startHourPosition + hourTemp + 1].price * minLeft; //add price for the last minutes
 		//price for starting window has now been calculated
 		minLeft = ((48 - startHourPosition + hourTemp) * 60) + (60 - startMin);
 
 		hourTemp += startHourPosition + (60 - startMin) / 60; //hour offset
-		minTemp = ((runTimeInMinutes % 60) + startMin) % 60; //minute offset
+		int test = ((runTimeInMinutes % 60) + startMin);
+		hourTemp += test / 60;
+		minTemp = test % 60; //minute offset
 		newPrice = price;
 		
 		int time1 = 0;
@@ -352,11 +356,15 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 
 		for (i = 0; i < minLeft; i++)
 		{
-			time1 = hourTemp + ((minTemp + i) / 60);
-			time2 = (minTemp + i) % 60;
-			time3 = const1 + (startMin + i) / 60;
-			time4 = (startMin + i) % 60;
-			printf("%d, %d - %d, %d\n", time1, time2, time3, time4);
+			if (i < 30)
+			{
+				time1 = hourTemp + ((minTemp + i) / 60);
+				time2 = (minTemp + i) % 60;
+				time3 = const1 + (startMin + i) / 60;
+				time4 = (startMin + i) % 60;
+				printf("%d, %d - %d, %d\n", time1, time2, time3, time4);
+			}
+			
 
 			newPrice += hourPrices[hourTemp + (minTemp + i) / 60].price;
 			newPrice -= hourPrices[const1 + (startMin + i) / 60].price;
