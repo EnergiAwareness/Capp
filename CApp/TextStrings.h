@@ -24,5 +24,6 @@ enum Text_Strings
 	/* 15 */ DEVICE_MENU,
 	/* 16 */ MAIN_MENU,
 	/* 17 */ GET_RUN_TIME_IN_MINUTES,
-	/* 14 */ TOTAL_STRINGS//MUST BE LAST!!
+	/* 18 */ NO_DEVICES,
+	/* 19 */ TOTAL_STRINGS//MUST BE LAST!!
 };

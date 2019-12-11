@@ -11,7 +11,7 @@
 
 #define INT_MAX_CHAR 10
 #define ARRAY_SIZE 10
-
+#define DEVICE_FILE "devices.ini"
 
 
 enum state {
@@ -32,6 +32,7 @@ typedef struct _BestTime
 }BestTime;
 
 devices* existingDevices = NULL;
+int deviceCounter = 0;
 
 int ChooseDevice(int* selectedDevice);
 /*
@@ -45,9 +46,8 @@ int ChooseDevice(int* selectedDevice);
 */
 int Devices(void) {
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
-	existingDevices = calloc(ARRAY_SIZE, sizeof(devices));
 
-	/*LoadCfg();*/
+	LoadCfg(&existingDevices, &deviceCounter);
 
 	while (run)
 	{
@@ -75,8 +75,13 @@ int Devices(void) {
 		}
 		case EXISTING:
 		{
-			if (Existing() != OK) {
-				printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+			if (deviceCounter) {
+				if (Existing() != OK) {
+					printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+				}
+			}
+			else {
+				printf("%s\n", GetTextString(NO_DEVICES));
 			}
 
 			state = SELECTION;
@@ -267,7 +272,7 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 			strcat(device, ckwh);
 			strcat(device, "\n");
 		}
-		returnCode = SaveToFile(&device, strlen(device), "devices.ini");
+		returnCode = SaveToFile(&device, strlen(device), DEVICE_FILE);
 	}
 	else {
 		returnCode = UNKNOWN_ERROR;
@@ -277,20 +282,24 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 	return returnCode;
 }
 
-int LoadCfg(devices deviceList[]) {
+int LoadCfg(devices** deviceList, int* counter) {
 	int returnCode = UNKNOWN_ERROR, fileHeight = 0, i = 0;
 	char** loadedFileArray = NULL;
 	char delim[] = ";";
 	char* temp;
 
-	if ((returnCode = LoadFile("elspot-prices_2018_hourly_dkk.csv", &loadedFileArray, &fileHeight)) == OK) {
+	if ((returnCode = LoadFile(DEVICE_FILE, &loadedFileArray, &fileHeight)) == OK) {
+
+		*deviceList = calloc(fileHeight, sizeof(devices));
+
 		for (i = 0; i < fileHeight; i++) {
 			temp = strtok(loadedFileArray[i], delim);
 			if (temp != NULL) {
-				strcpy(deviceList[i].deviceName, temp);
+				strcpy((*deviceList + i)->deviceName, temp);
 				temp = strtok(NULL, delim);
 				if (temp != NULL) {
-					deviceList[i].kwh = atoi(temp);
+					(*deviceList + i)->kwh = atoi(temp);
+					counter++;
 				}
 				else {
 					returnCode = UNABLE_TO_DECODE_DEVICE_CONFIG;

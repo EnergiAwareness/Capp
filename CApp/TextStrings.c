@@ -20,6 +20,7 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"1. Register a new device\n2. Select a existing device\n9. Exit to main menu",
 	"1. Price\n2. Devices\n3. About\n4. Exit program",
 	"Enter run time for the device in minutes",
+	"No existing devices found, please use register to create a new devices",
 };
 
 
