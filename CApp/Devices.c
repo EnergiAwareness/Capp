@@ -41,6 +41,7 @@ typedef struct _BestTime
 devices* existingDevices = NULL;
 int deviceCounter = 0;
 
+void PrintOutPriceData2(_DateTimePrice* prices, int cnt);
 int ChooseDevice(int* selectedDevice);
 /*
 * Function: Devices
@@ -384,8 +385,8 @@ int LoadCfg(devices** deviceList, int* counter) {
 
 int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 {
-	int errorCode = UNKNOWN_ERROR, i = 0, startHourPosition = 0, startMin = 0, minLeft = 0, minTemp = 0, hourTemp = 0;
-	int foundStartHour = 0, foundStartMin = 0, pos = 0, nextDay = 0;
+	int errorCode = UNKNOWN_ERROR, i = 0, minLeft = 0, hourOffset = 0, startMin = 0;
+	int foundStartHour = 0, foundStartMin = 0, minCalc = 0;
 	double price = 0, newPrice = 0;
 
 	time_t t = time(NULL);
@@ -393,74 +394,69 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 	_DateTimePrice* hourPrices = NULL;
 	size_t structSize = 0;
 
-	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday+1, tm.tm_mon, &hourPrices, &structSize)) == OK)
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday + 1, tm.tm_mon, &hourPrices, &structSize)) == OK)
 	{
-		minLeft = runTimeInMinutes;
-		for (i = 0; i < structSize; i++)
+		for (i = tm.tm_hour; i < structSize; i++)
 		{
 			hourPrices[i].price = hourPrices[i].price / 1000 / 60; //convert mwh to kwh then hour to minut
 		}
 
-		startHourPosition = tm.tm_hour + (int)(((double)tm.tm_min + 5) / 60); //find start position of time data.
-		startMin = (tm.tm_min + 5) % 60;//find start min within the hour
+		startMin = (tm.tm_min + 5) % 60; //find start minute
 
-		price = hourPrices[startHourPosition].price * (60 - startMin); //calculate price for the firste hour and minutes
-		minLeft = runTimeInMinutes - (60 - startMin); // find amount of minutes left
-		hourTemp = minLeft / 60; // find hours left
-		minLeft = minLeft % 60; // find minutes left after hours has been subtracted
-		
-		for (i = 1; i <= hourTemp; i++)
+		for (i = 0; i < runTimeInMinutes; i++)
 		{
-			price += hourPrices[startHourPosition + i].price * 60; // add x hours price to the total price
+			//printf("Hour: %2d min: %2d\n", tm.tm_hour + ((i + startMin) / 60), (i + startMin) % 60);
+			price += hourPrices[tm.tm_hour + ((i + startMin) / 60)].price;
 		}
-		if (hourTemp)
-			hourTemp++;
 
-		price += hourPrices[startHourPosition + hourTemp + 1].price * minLeft; //add price for the last minutes
-		//price for starting window has now been calculated
-		minLeft = ((48 - startHourPosition + hourTemp) * 60) + (60 - startMin);
-
-		hourTemp += startHourPosition + (60 - startMin) / 60; //hour offset
-		int test = ((runTimeInMinutes % 60) + startMin);
-		hourTemp += test / 60;
-		minTemp = test % 60; //minute offset
+		//printf("Price: %2.4lf\n\n\n", price);
+		hourOffset = tm.tm_hour + runTimeInMinutes / 60;
+		minLeft = 2880 - (tm.tm_hour * 60 + startMin + runTimeInMinutes);
 		newPrice = price;
-		
-		int time1 = 0;
-		int time2 = 0;
-		int time3 = 0;
-		int time4 = 0;
-
-		int const1 = startHourPosition;// hourTemp - runTimeInMinutes / 60;
 
 		for (i = 0; i < minLeft; i++)
 		{
-			if (i < 30)
-			{
-				time1 = hourTemp + ((minTemp + i) / 60);
-				time2 = (minTemp + i) % 60;
-				time3 = const1 + (startMin + i) / 60;
-				time4 = (startMin + i) % 60;
-				//printf("%d, %d - %d, %d\n", time1, time2, time3, time4);
-			}
-			
+			minCalc = i + startMin;
+			//printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + (minCalc / 60), minCalc % 60,  hourOffset + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);
+			//printf("Subtract: %2.7lf, add:  %2.7lf, price: %2.7lf\n", hourPrices[tm.tm_hour + (minCalc / 60)].price, hourPrices[hourOffset + (minCalc / 60)].price, price);
 
-			newPrice += hourPrices[hourTemp + (minTemp + i) / 60].price;
-			newPrice -= hourPrices[const1 + (startMin + i) / 60].price;
+			newPrice -= hourPrices[tm.tm_hour + (minCalc / 60)].price;
+			newPrice += hourPrices[hourOffset + (minCalc / 60)].price;
+
 			if (newPrice < price)
 			{
+				foundStartMin = ((minCalc + 1) % 60);
+				foundStartHour = tm.tm_hour + ((minCalc + 1) / 60);
 				price = newPrice;
-				pos = const1 + (startMin + i) / 60;
-				if (pos > 23)
-					nextDay = 1;
-				foundStartHour = hourPrices[pos].hourStart;
-				foundStartMin = (startMin + i) % 60;
-				//printf("%f, %d, %d, %d, %d\n", price, pos, nextDay, foundStartHour, foundStartMin);
+				//printf("time: %2d:%d -  %2.4lf\n", foundStartHour, foundStartMin, price);
 			}
-			errorCode = OK;
 		}
-		bestTimeToStart->price = newPrice * 60; //convert min to hour
-		sprintf(bestTimeToStart->timeStamp,"%2d-%2d-%4d : %2d:%2d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, foundStartHour, foundStartMin);
+
+		if (foundStartHour > 23)
+		{
+			foundStartHour -= 24;
+			if (tm.tm_mday + 1 > 31)
+			{
+				if (tm.tm_mon + 1 > 11)
+				{
+					tm.tm_mon = 1;
+					tm.tm_mday = 1;
+					tm.tm_year++;
+				}
+				else
+				{
+					tm.tm_mon++;
+					tm.tm_mday = 1;
+				}
+			}
+			else
+			{
+				tm.tm_mday++;
+			}
+		}
+
+		bestTimeToStart->price = price; //convert min to hour
+		sprintf(bestTimeToStart->timeStamp, "%2d-%2d-%4d : %2d:%2d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, foundStartHour, foundStartMin);
 	}
 
 	return errorCode;
