@@ -3,7 +3,7 @@
 #include "ReturnErrors.h"
 #include "FileHandler.h"
 
-int SaveToFile(char buffer[], int lenght, char fileName[]) {
+int SaveToFile(char* buffer, int lenght, char fileName[]) {
 	int i = 0;
 
 	FILE* outputFile;
@@ -13,12 +13,16 @@ int SaveToFile(char buffer[], int lenght, char fileName[]) {
 		return CANNOT_SAVE_TO_FILE;
 	}
 	else {
+		//printf("%s", buffer);
+
 		fprintf(outputFile, "%s", buffer);
-		fclose(outputFile);
 	}
+
+	fclose(outputFile);
 
 	return OK;
 }
+
 
 int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length);
 int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width);
@@ -93,5 +97,8 @@ int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width
 
 		Index++;
 	}
+
+	fclose(fp);
+
 	return OK;
 }

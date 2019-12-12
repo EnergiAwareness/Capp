@@ -282,7 +282,7 @@ int RegisterDevice(void) {
 						strcpy(existingDevices[deviceCounter - 1].deviceName, newdevice.deviceName);
 						existingDevices[deviceCounter - 1].kwh = newdevice.kwh;
 						SaveCfg(existingDevices, deviceCounter);
-						printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
+						printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));//der skal være en errorcode fra SaveCfg her
 					}
 					else
 					{
@@ -329,7 +329,7 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 				strcat(device, "\n");
 
 			}
-			printf("string: %s\n", device);
+			//printf("string: %s\n", device);
 			returnCode = SaveToFile(device, strlen(device), DEVICE_FILE);
 		}
 		else {
