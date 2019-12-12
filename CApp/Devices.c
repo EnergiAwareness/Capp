@@ -83,7 +83,7 @@ int Devices(void) {
 		case EXISTING:
 		{
 			if (deviceCounter) {
-				if (Existing() != OK) {
+				if (ExistingDevices() != OK) {
 					printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
 				}
 			}
@@ -119,7 +119,7 @@ int Devices(void) {
 *
 * returns: error code reflecting the execution status
 */
-int Existing(void) {
+int ExistingDevices(void) {
 	int state = SELECTION, keepAlive = 1, i = 0, selectedDevice = 0, minToRun = 0, returnCode = OK;
 
 	while (keepAlive) {

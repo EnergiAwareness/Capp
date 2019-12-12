@@ -1,7 +1,7 @@
 #pragma once
 
 
-extern int Existing(void);
+extern int ExistingDevices(void);
 
 extern int RegisterDevice(void);
 
