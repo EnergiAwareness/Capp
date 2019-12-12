@@ -164,7 +164,7 @@ int Existing(void) {
 		}
 		case DELETE_A_DEVICE: {
 			if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
-				
+
 				for (i = selectedDevice; i < deviceCounter; i++) {
 					existingDevices[i - 1] = existingDevices[i];
 				}
@@ -180,7 +180,7 @@ int Existing(void) {
 					if (d != NULL)
 					{
 						existingDevices = d;
-						
+
 						printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
 					}
 					else
