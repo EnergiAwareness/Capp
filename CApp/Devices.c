@@ -41,8 +41,13 @@ typedef struct _BestTime
 devices* existingDevices = NULL;
 int deviceCounter = 0;
 
-void PrintOutPriceData2(_DateTimePrice* prices, int cnt);
+int ExistingDevices(void);
 int ChooseDevice(int* selectedDevice);
+int RegisterDevice(void);
+int SaveCfg(devices deviceList[], int deviceCount);
+int LoadCfg(devices** deviceList, int* counter);
+int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes);
+
 /*
 * Function: Devices
 * -------------------

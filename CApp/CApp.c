@@ -23,10 +23,6 @@ enum states
 	BACK = 9,
 };
 
-
-int Price(void);
-int Devices(void);
-
 int main(void) {
 	int state = SELECTION, i = 0, run = 1, returnValue = EXIT_FAILURE, errorCode = 0;
 	
@@ -98,63 +94,4 @@ int main(void) {
 		}
 	}
 	return returnValue;
-}
-
-int Price(void) {
-
-	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
-
-	while (run)
-	{
-		errorCode = OK;
-		switch (state)
-		{
-		case SELECTION:
-		{
-			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(PRICES_MENU));
-			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
-			{
-				state = SELECTION;
-				printf("%s\n", GetErrorCodeString(errorCode));
-			}
-			break;
-		}
-		case TODAY:
-		{
-			if ((errorCode = Today()) != OK)
-			{
-				printf("%s\n", GetErrorCodeString(errorCode));
-			}
-			state = SELECTION;
-			break;
-		}
-		case TOMORROW:
-		{
-			if ((errorCode = Tomorrow()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
-			}
-
-			state = SELECTION;
-			break;
-		}
-		case HISTORICAL:
-		{
-			if ((errorCode = Historical()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
-			}
-		}
-		case BACK:
-		{
-			run = 0;
-			returnCode = OK;
-			break;
-		}
-		default:
-			state = SELECTION;
-			printf("%s\n", GetTextString(INVALID_SELECTION));
-			break;
-		}
-	}
-
-	return returnCode;
 }
