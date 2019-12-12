@@ -30,21 +30,20 @@ int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width
 int LoadFile(char InputFileName[], char*** LoadedFileArray, int* AmountOfStrings) {
 	int Width = 0, Height = 0, Index = 0;
 
-	if (FindWidthAndLengthOfFile(InputFileName, &Width, &Height) == CANNOT_OPEN_FILE)
+	if (FindWidthAndLengthOfFile(InputFileName, &Width, &Height) == CANNOT_OPEN_FILE) {
 		return CANNOT_OPEN_FILE;
-
-
+	}
 
 	char** LoadedFile;
 
 	LoadedFile = calloc(Height, sizeof(char**));
-	if (LoadedFile != NULL)
-		for (int i = 0; i < Height; i++)
+	if (LoadedFile != NULL) {
+		for (int i = 0; i < Height; i++) {
 			LoadedFile[i] = calloc(Width, sizeof(char*));
+		}
+	}
 
-	if (LoadedFile != NULL)
-	{
-
+	if (LoadedFile != NULL){
 		LoadFileToStringArray(LoadedFile, InputFileName, Width);
 	}
 
@@ -61,8 +60,9 @@ int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
 
 	fopen_s(&fp, _InputFileName, "r");
 
-	if (fp == NULL)
+	if (fp == NULL) {
 		return CANNOT_OPEN_FILE;
+	}
 
 	while (!feof(fp)) {
 		fgets(Buffer, 128, fp);
@@ -87,8 +87,9 @@ int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width
 
 	fopen_s(&fp, _InputFileName, "r");
 
-	if (fp == NULL)
+	if (fp == NULL) {
 		return CANNOT_OPEN_FILE;
+	}
 
 	while (!feof(fp)) {
 		fgets(_LoadedFile[Index], _Width, fp);
