@@ -13,9 +13,9 @@ int SaveToFile(char* buffer, int lenght, char fileName[]) {
 		return CANNOT_SAVE_TO_FILE;
 	}
 	else {
-		//printf("%s", buffer);
-
-		fprintf(outputFile, "%s", buffer);
+		for (i = 0; i < lenght; i++) {
+			fputc(buffer[i], outputFile);
+		}
 	}
 
 	fclose(outputFile);
