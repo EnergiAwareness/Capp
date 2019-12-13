@@ -9,7 +9,6 @@
 #include "FileHandler.h"
 #include "PriceData.h"
 
-
 #define INT_MAX_CHAR 10
 #define ARRAY_SIZE 10
 #define DEVICE_FILE "devices.ini"
@@ -31,12 +30,10 @@ typedef struct Devices {
 	double kwh;
 } devices;
 
-typedef struct _BestTime
-{
+typedef struct _BestTime {
 	char timeStamp[30];
 	double price;
 }BestTime;
-
 
 devices* existingDevices = NULL;
 int deviceCounter = 0;
@@ -49,67 +46,67 @@ int LoadCfg(devices** deviceList, int* counter);
 int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes);
 
 /*
-* Function: Devices
-* -------------------
-* Menu that handles the device menu selection 
-*
-* parameters: none
-*
-* returns: error code reflecting the execution status
-*/
+ * Function: Devices
+ * -------------------
+ * Menu that handles the device menu selection 
+ *
+ * parameters: none
+ *
+ * returns: error code reflecting the execution status
+ */
 int Devices(void) {
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
 	
 	LoadCfg(&existingDevices, &deviceCounter);
 
-	while (run)
-	{
+	while (run) {
 		errorCode = OK;
-		switch (state)
-		{
-		case SELECTION:
-		{
+		switch (state) {
+		case SELECTION: {
+
 			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(DEVICE_MENU));
-			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
-			{
+			if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
 				state = SELECTION;
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
+
 			break;
 		}
-		case REGISTER:
-		{
-			if ((errorCode = RegisterDevice()) != OK)
-			{
+		case REGISTER: {
+
+			if ((errorCode = RegisterDevice()) != OK) {
 				printf("%s\n", GetErrorCodeString(errorCode));
-			}
-			state = SELECTION;
-			break;
-		}
-		case EXISTING:
-		{
-			if (deviceCounter) {
-				if (ExistingDevices() != OK) {
-					printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
-				}
-			}
-			else {
-				printf("%s\n", GetTextString(NO_DEVICES));
 			}
 
 			state = SELECTION;
 			break;
 		}
-		case BACK:
-		{
+		case EXISTING: {
+
+			if (deviceCounter) {
+				if (ExistingDevices() != OK) {
+					printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+				}
+			} 
+			else { 
+				printf("%s\n", GetTextString(NO_DEVICES)); 
+			}
+
+			state = SELECTION;
+			break;
+		}
+		case BACK: {
+
 			run = 0;
 			returnCode = OK;
 			break;
 		}
-		default:
+		default: {
+
 			state = SELECTION;
 			printf("%s\n", GetTextString(INVALID_SELECTION));
 			break;
+		}
 		}
 	}
 	free(existingDevices);
@@ -132,10 +129,12 @@ int ExistingDevices(void) {
 
 		switch (state) {
 		case SELECTION: {
+
 			printf("%s\n", GetTextString(EXISTING_MENU));
 			if ((returnCode = GetIntegerFromStdin(&state)) != OK) {
 
 			}
+
 			break;
 		}
 		case LISTE_ALL_DEVICES: {
@@ -151,8 +150,7 @@ int ExistingDevices(void) {
 
 			if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
 				printf("%s\n", GetTextString(GET_RUN_TIME_IN_MINUTES));
-				if ((returnCode = GetIntegerFromStdin(&minToRun)) == OK)
-				{
+				if ((returnCode = GetIntegerFromStdin(&minToRun)) == OK) {
 					BestTime bt;
 					if ((returnCode = GetBestTime(&bt, minToRun)) == OK) {
 						printf("|Start: %s | price kWh DKK: %2.3lf | cost: %2.3lf DKK|\n", bt.timeStamp, bt.price, existingDevices[selectedDevice - 1].kwh * bt.price);
@@ -160,8 +158,7 @@ int ExistingDevices(void) {
 				}
 			}
 
-			if (returnCode != OK)
-			{
+			if (returnCode != OK) {
 				printf("%s\n", GetErrorCodeString(returnCode));
 			}
 
@@ -176,39 +173,37 @@ int ExistingDevices(void) {
 				}
 				deviceCounter--;
 
-				if (deviceCounter == 0)
-				{
+				if (deviceCounter == 0) {
 					free(existingDevices);
 				}
-				else
-				{
+				else {
 					devices* d = realloc(existingDevices, deviceCounter * sizeof(devices));
-					if (d != NULL)
-					{
+					if (d != NULL) {
 						existingDevices = d;
-
 						printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
 					}
-					else
-					{
+					else {
 						returnCode = ALLOCATING_MEMORY_FAILED;
 					}
 				}
+
 				SaveCfg(existingDevices, deviceCounter);
 			}
 
-			if (returnCode != OK)
-			{
+			if (returnCode != OK) {
 				printf("%s\n", GetTextString(returnCode));
 			}
+
 			state = BACK;
 			break;
 		}
 		case BACK: {
+
 			keepAlive = 0;
 			break;
 		}
 		default: {
+
 			printf("%s\n", GetTextString(INVALID_SELECTION));
 			state = SELECTION;
 			break;
@@ -232,8 +227,7 @@ int ChooseDevice(int* selectedDevice) {
 
 	printf("%s\n", GetTextString(ENTER_DEVICE_NUMBER));
 	returnCode = GetIntegerFromStdin(selectedDevice);
-	if (*selectedDevice < 0 || *selectedDevice > deviceCounter)
-	{
+	if (*selectedDevice < 0 || *selectedDevice > deviceCounter) {
 		returnCode = SELECTED_OUT_OF_BOUND;		
 	}
 
@@ -258,6 +252,7 @@ int RegisterDevice(void) {
 
 		switch (state) {
 		case SELECTION: {
+
 			printf("%s\n", GetTextString(SELECT_REGISTER));
 
 			if (scanf("%d", &state) == 0) {
@@ -265,9 +260,11 @@ int RegisterDevice(void) {
 				ClearStdinBuffer();
 				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));
 			}
+
 			break;
 		}
 		case CREATE_DEVICE: {
+
 			printf("%s\n", GetTextString(ENTER_NAME_OF_DEVICE));
 
 			if ((errorCode = GetStringFromStdin(newdevice.deviceName, MAX_DEVICE_NAME)) == OK) {
@@ -275,39 +272,40 @@ int RegisterDevice(void) {
 
 				if ((errorCode = GetDoubleFromStdin(&newdevice.kwh)) != OK) {
 					printf("%s\n", GetErrorCodeString(errorCode));
+
 					state = SELECTION;
 				}
 				else {
-
 					deviceCounter++;
 
 					devices* d =  realloc(existingDevices, deviceCounter * sizeof(devices));
-					if (d != NULL)
-					{
+					if (d != NULL) {
 						existingDevices = d;
 						strcpy(existingDevices[deviceCounter - 1].deviceName, newdevice.deviceName);
 						existingDevices[deviceCounter - 1].kwh = newdevice.kwh;
 						SaveCfg(existingDevices, deviceCounter);
 						printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));//der skal være en errorcode fra SaveCfg her
 					}
-					else
-					{
+					else {
 						printf("%s\n", GetErrorCodeString(ALLOCATING_MEMORY_FAILED));
 					}
+
 					state = SELECTION;
 				}
 			}
 			else {
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
+
 			break;
 		}
 		case BACK: {
+
 			keepAlive = 0;
 			break;
 		}
-		default:
-		{
+		default: {
+
 			state = SELECTION;
 			printf("%s\n", GetTextString(INVALID_SELECTION));
 			break;
@@ -322,9 +320,9 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 	char ckwh[MAX_DEVICE_NAME];
 	int returnCode = OK;
 
-	if (deviceCount > 0)
-	{
+	if (deviceCount > 0) {
 		device = calloc(deviceCount, MAX_DEVICE_NAME + INT_MAX_CHAR);
+
 		if (device != NULL) {
 			for (int i = 0; i < deviceCount; i++) {
 				printf("device :%s %lf\n", deviceList[i].deviceName, deviceList[i].kwh);
@@ -342,8 +340,7 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 			returnCode = UNKNOWN_ERROR;
 		}
 	}
-	else
-	{
+	else {
 		device = calloc(1, MAX_DEVICE_NAME + INT_MAX_CHAR);
 		strcpy(device, "\0");
 		returnCode = SaveToFile(device, strlen(device), DEVICE_FILE);
@@ -360,19 +357,18 @@ int LoadCfg(devices** deviceList, int* counter) {
 	char* temp;
 
 	if ((returnCode = LoadFile(DEVICE_FILE, &loadedFileArray, &fileHeight)) == OK) {
-
 		*deviceList = calloc(fileHeight, sizeof(devices));
 
 		for (i = 0; i < fileHeight; i++) {
 			if (strlen(loadedFileArray[i]) > 1){
-
 				temp = strtok(loadedFileArray[i], delim);
+
 				if (temp != NULL) {
 					strcpy((*deviceList + i)->deviceName, temp);
 						temp = strtok(NULL, delim);
 						if (temp != NULL) {
 							(*deviceList + i)->kwh = atof(temp);
-								cnt++;
+							cnt++;
 						}
 						else {
 							returnCode = UNABLE_TO_DECODE_DEVICE_CONFIG;
@@ -384,6 +380,7 @@ int LoadCfg(devices** deviceList, int* counter) {
 			}
 		}
 	}
+
 	*counter = cnt;
 	return returnCode;
 }
@@ -399,17 +396,14 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 	_DateTimePrice* hourPrices = NULL;
 	size_t structSize = 0;
 
-	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday + 1, tm.tm_mon, &hourPrices, &structSize)) == OK)
-	{
-		for (i = tm.tm_hour; i < structSize; i++)
-		{
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday + 1, tm.tm_mon, &hourPrices, &structSize)) == OK) {
+		for (i = tm.tm_hour; i < structSize; i++) {
 			hourPrices[i].price = hourPrices[i].price / 1000 / 60; //convert mwh to kwh then hour to minut
 		}
 
 		startMin = (tm.tm_min + 5) % 60; //find start minute
 
-		for (i = 0; i < runTimeInMinutes; i++)
-		{
+		for (i = 0; i < runTimeInMinutes; i++) {
 			//printf("Hour: %2d min: %2d\n", tm.tm_hour + ((i + startMin) / 60), (i + startMin) % 60);
 			price += hourPrices[tm.tm_hour + ((i + startMin) / 60)].price;
 		}
@@ -419,8 +413,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 		minLeft = 2880 - (tm.tm_hour * 60 + startMin + runTimeInMinutes);
 		newPrice = price;
 
-		for (i = 0; i < minLeft; i++)
-		{
+		for (i = 0; i < minLeft; i++) {
 			minCalc = i + startMin;
 			//printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + (minCalc / 60), minCalc % 60,  hourOffset + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);
 			//printf("Subtract: %2.7lf, add:  %2.7lf, price: %2.7lf\n", hourPrices[tm.tm_hour + (minCalc / 60)].price, hourPrices[hourOffset + (minCalc / 60)].price, price);
@@ -428,8 +421,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 			newPrice -= hourPrices[tm.tm_hour + (minCalc / 60)].price;
 			newPrice += hourPrices[hourOffset + (minCalc / 60)].price;
 
-			if (newPrice < price)
-			{
+			if (newPrice < price) {
 				foundStartMin = ((minCalc + 1) % 60);
 				foundStartHour = tm.tm_hour + ((minCalc + 1) / 60);
 				price = newPrice;
@@ -437,25 +429,20 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 			}
 		}
 
-		if (foundStartHour > 23)
-		{
+		if (foundStartHour > 23) {
 			foundStartHour -= 24;
-			if (tm.tm_mday + 1 > 31)
-			{
-				if (tm.tm_mon + 1 > 11)
-				{
+			if (tm.tm_mday + 1 > 31) {
+				if (tm.tm_mon + 1 > 11) {
 					tm.tm_mon = 1;
 					tm.tm_mday = 1;
 					tm.tm_year++;
 				}
-				else
-				{
+				else {
 					tm.tm_mon++;
 					tm.tm_mday = 1;
 				}
 			}
-			else
-			{
+			else {
 				tm.tm_mday++;
 			}
 		}

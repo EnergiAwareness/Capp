@@ -15,14 +15,12 @@ char* errorStrings[TOTAL_RETURN_VALUES] = {
 	"Selected number out of bound",
 };
 
-char* GetErrorCodeString(int value)
-{
-	if (value >= 0 && value < TOTAL_RETURN_VALUES)
-	{
+char* GetErrorCodeString(int value) {
+
+	if (value >= 0 && value < TOTAL_RETURN_VALUES) {
 		return errorStrings[value];
 	}
-	else
-	{
+	else {
 		return errorStrings[UNKNOWN_ERROR];
 	}
 }

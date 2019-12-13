@@ -18,11 +18,13 @@ int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTi
 
 		for (i = 0; i < fileHeight; i++) {
 			temp = strtok(loadedFileArray[i], delim);
+
 			for (x = 0; x < 6; x++) {
 				if (temp != NULL) {
 					data[x] = atof(temp);
 				}
 				else { break; }
+
 				temp = strtok(NULL, delim);
 			}
 
@@ -39,8 +41,7 @@ int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTi
 
 		*dateTimePrice = calloc(count, sizeof(_DateTimePrice));
 
-		for (i = 0; i < count; i++)
-		{
+		for (i = 0; i < count; i++) {
 			(*dateTimePrice + i)->day = builder[i].day;
 			(*dateTimePrice + i)->month = builder[i].month;
 			(*dateTimePrice + i)->year = builder[i].year;

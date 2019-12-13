@@ -10,8 +10,7 @@ gruppe:
 #include "Devices.h"
 #include "Prices.h"
 
-enum states
-{
+enum states {
 	SELECTION = 0,//Must be first!
 	PRICE = 1,
 	DEVICES = 2,
@@ -31,41 +30,41 @@ int main(void) {
 	printf("*****************************************************\n");
 	printf("*****************************************************\n\n");
 
-	while (run)
-	{
+	while (run) {
 		errorCode = OK;
+
 		switch (state) {
-		case SELECTION:
-		{
+		case SELECTION: {
+
 			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(MAIN_MENU));
 
-			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
-			{
+			if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
 				state = SELECTION;
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
+
 			break;
 		}
-		case PRICE:
-		{
-			if ((errorCode = Price()) != OK)
-			{
+		case PRICE: {
+
+			if ((errorCode = Price()) != OK) {
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
+
 			state = SELECTION;
 			break;
 		}
-		case DEVICES:
-		{
-			if ((errorCode = Devices()) != OK)
-			{
+		case DEVICES: {
+
+			if ((errorCode = Devices()) != OK) {
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
+
 			state = SELECTION;
 			break;
 		}
-		case ABOUT:
-		{
+		case ABOUT: {
+
 			printf("This program was developed by group A400B for first semester group project P1 2019.\n"
 				"The project is about Energy price awareness\n"
 				"Created by:\n"
@@ -76,17 +75,18 @@ int main(void) {
 				"Claes Mortensen\n"
 				"Lars Christensen\n"
 				"Frederik L. Jakobsen\n\n");
+
 			state = SELECTION;
 			break;
 		}
-		case EXIT:
-		{
+		case EXIT: {
+
 			run = 0;
 			returnValue = EXIT_SUCCESS;
 			break;
 		}
-		default:
-		{
+		default: {
+
 			printf("%s\n", GetTextString(INVALID_SELECTION));
 			state = SELECTION;
 			break;

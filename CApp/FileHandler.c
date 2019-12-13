@@ -3,9 +3,11 @@
 #include "ReturnErrors.h"
 #include "FileHandler.h"
 
+int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length);
+int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width);
+
 int SaveToFile(char* buffer, int lenght, char fileName[]) {
 	int i = 0;
-
 	FILE* outputFile;
 
 	outputFile = fopen(fileName, "w");
@@ -23,18 +25,13 @@ int SaveToFile(char* buffer, int lenght, char fileName[]) {
 	return OK;
 }
 
-
-int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length);
-int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width);
-
 int LoadFile(char InputFileName[], char*** LoadedFileArray, int* AmountOfStrings) {
 	int Width = 0, Height = 0, Index = 0;
+	char** LoadedFile;
 
 	if (FindWidthAndLengthOfFile(InputFileName, &Width, &Height) == CANNOT_OPEN_FILE) {
 		return CANNOT_OPEN_FILE;
 	}
-
-	char** LoadedFile;
 
 	LoadedFile = calloc(Height, sizeof(char**));
 	if (LoadedFile != NULL) {
@@ -68,11 +65,11 @@ int FindWidthAndLengthOfFile(char _InputFileName[], int* Width, int* Length) {
 		fgets(Buffer, 128, fp);
 		CurrentStringLength = strlen(Buffer);
 
-		if (CurrentStringLength > * Width)
-			* Width = CurrentStringLength;
+		if (CurrentStringLength > * Width) {
+			*Width = CurrentStringLength;
+		}
 
 		CurrentFileLength++;
-
 	}
 	*Length = CurrentFileLength + 1;
 

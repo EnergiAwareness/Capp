@@ -25,8 +25,8 @@ char* stringArray[TOTAL_STRINGS ] = {
 };
 
 
-char* GetTextString(int value)
-{
+char* GetTextString(int value) {
+
 	if (value >= 0 && value < TOTAL_STRINGS) {
 		return stringArray[value];
 	}

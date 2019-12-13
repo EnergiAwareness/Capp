@@ -7,8 +7,7 @@
 #include "FileHandler.h"
 #include "PriceData.h"
 
-enum states
-{
+enum states {
 	SELECTION = 0,//Must be first!
 	TODAY = 1,
 	TOMORROW = 2,
@@ -25,32 +24,30 @@ int Price(void) {
 
 	int returnCode = UNKNOWN_ERROR, run = 1, state = 0, errorCode = OK;
 
-	while (run)
-	{
+	while (run) {
 		errorCode = OK;
-		switch (state)
-		{
-		case SELECTION:
-		{
+		switch (state) {
+		case SELECTION: {
+
 			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(PRICES_MENU));
-			if ((errorCode = GetIntegerFromStdin(&state)) != OK)
-			{
+			if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
 				state = SELECTION;
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
+
 			break;
 		}
-		case TODAY:
-		{
-			if ((errorCode = Today()) != OK)
-			{
+		case TODAY: {
+
+			if ((errorCode = Today()) != OK) {
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
+
 			state = SELECTION;
 			break;
 		}
-		case TOMORROW:
-		{
+		case TOMORROW: {
+
 			if ((errorCode = Tomorrow()) != OK) {
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
@@ -58,22 +55,24 @@ int Price(void) {
 			state = SELECTION;
 			break;
 		}
-		case HISTORICAL:
-		{
+		case HISTORICAL: {
+
 			if ((errorCode = Historical()) != OK) {
 				printf("%s\n", GetErrorCodeString(errorCode));
 			}
 		}
-		case BACK:
-		{
+		case BACK: {
+
 			run = 0;
 			returnCode = OK;
 			break;
 		}
-		default:
+		default: {
+
 			state = SELECTION;
 			printf("%s\n", GetTextString(INVALID_SELECTION));
 			break;
+		}
 		}
 	}
 
@@ -86,6 +85,7 @@ int Today() {
 	_DateTimePrice* callPrices = NULL;
 	size_t structSize = 0;
 	int errorCode = UNKNOWN_ERROR;
+
 	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon + 1, tm.tm_mday, tm.tm_mon + 1, &callPrices, &structSize)) == OK) {
 		PrintOutPriceData(callPrices, structSize);
 	}
@@ -126,9 +126,9 @@ int Historical() {
 	return errorCode;
 }
 
-void PrintOutPriceData(_DateTimePrice* prices, int cnt)
-{
+void PrintOutPriceData(_DateTimePrice* prices, int cnt) {
 	int i;
+
 	for (i = 0; i < cnt; i++) {
 		printf("|Date: %2d-%2d-%4d | Hour: %2d-%2d | Price:%7.3lf DKK / KwH|\n", prices[i].day, prices[i].month, prices[i].year, prices[i].hourStart, prices[i].hourEnd, prices[i].price/1000);
 	}
