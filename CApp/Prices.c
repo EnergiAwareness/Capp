@@ -27,52 +27,52 @@ int Price(void) {
 	while (run) {
 		errorCode = OK;
 		switch (state) {
-		case SELECTION: {
+			case SELECTION: {
 
-			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(PRICES_MENU));
-			if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
+				printf("%s\n%s\n", GetTextString(SELECT_A_NUMBER), GetTextString(PRICES_MENU));
+				if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
+					state = SELECTION;
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
+
+				break;
+			}
+			case TODAY: {
+
+				if ((errorCode = Today()) != OK) {
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
+
 				state = SELECTION;
-				printf("%s\n", GetErrorCodeString(errorCode));
+				break;
 			}
+			case TOMORROW: {
 
-			break;
-		}
-		case TODAY: {
+				if ((errorCode = Tomorrow()) != OK) {
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
 
-			if ((errorCode = Today()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
+				state = SELECTION;
+				break;
 			}
+			case HISTORICAL: {
 
-			state = SELECTION;
-			break;
-		}
-		case TOMORROW: {
-
-			if ((errorCode = Tomorrow()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
+				if ((errorCode = Historical()) != OK) {
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
 			}
+			case BACK: {
 
-			state = SELECTION;
-			break;
-		}
-		case HISTORICAL: {
-
-			if ((errorCode = Historical()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
+				run = 0;
+				returnCode = OK;
+				break;
 			}
-		}
-		case BACK: {
+			default: {
 
-			run = 0;
-			returnCode = OK;
-			break;
-		}
-		default: {
-
-			state = SELECTION;
-			printf("%s\n", GetTextString(INVALID_SELECTION));
-			break;
-		}
+				state = SELECTION;
+				printf("%s\n", GetTextString(INVALID_SELECTION));
+				break;
+			}
 		}
 	}
 

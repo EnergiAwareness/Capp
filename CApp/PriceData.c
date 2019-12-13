@@ -23,7 +23,9 @@ int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTi
 				if (temp != NULL) {
 					data[x] = atof(temp);
 				}
-				else { break; }
+				else { 
+					break; 
+				}
 
 				temp = strtok(NULL, delim);
 			}

@@ -4,12 +4,11 @@
 extern char* GetTextString(int value);
 
 //Added new item here must also be added the char *array in the c file to work.
-enum Text_Strings
-{
+enum Text_Strings {
 	/* 0 */ ENTERED_VALUE_WAS_NOT_A_NUMBER,
 	/* 1 */ UNKNOWN_STRING_REQUEST,
 	/* 2 */ INVALID_SELECTION,
-	/* 3 */ SELET_A_NUMBER,
+	/* 3 */ SELECT_A_NUMBER,
 	/* 4 */ EXISTING_MENU,
 	/* 5 */ ENTER_NAME_OF_DEVICE,
 	/* 6 */ ENTER_POWER_USAGE_OF_DEVICE,

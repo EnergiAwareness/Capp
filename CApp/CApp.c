@@ -34,63 +34,63 @@ int main(void) {
 		errorCode = OK;
 
 		switch (state) {
-		case SELECTION: {
+			case SELECTION: {
 
-			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(MAIN_MENU));
+				printf("%s\n%s\n", GetTextString(SELECT_A_NUMBER), GetTextString(MAIN_MENU));
 
-			if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
+				if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
+					state = SELECTION;
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
+
+				break;
+			}
+			case PRICE: {
+
+				if ((errorCode = Price()) != OK) {
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
+
 				state = SELECTION;
-				printf("%s\n", GetErrorCodeString(errorCode));
+				break;
 			}
+			case DEVICES: {
 
-			break;
-		}
-		case PRICE: {
+				if ((errorCode = Devices()) != OK) {
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
 
-			if ((errorCode = Price()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
+				state = SELECTION;
+				break;
 			}
+			case ABOUT: {
 
-			state = SELECTION;
-			break;
-		}
-		case DEVICES: {
+				printf("This program was developed by group A400B for first semester group project P1 2019.\n"
+					"The project is about Energy price awareness\n"
+					"Created by:\n"
+					"Martin Lindblom Hansen\n"
+					"Rune Bohnstedt\n"
+					"Kim Helstrup Pedersen\n"
+					"Micklas Skov\n"
+					"Claes Mortensen\n"
+					"Lars Christensen\n"
+					"Frederik L. Jakobsen\n\n");
 
-			if ((errorCode = Devices()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
+				state = SELECTION;
+				break;
 			}
+			case EXIT: {
 
-			state = SELECTION;
-			break;
-		}
-		case ABOUT: {
+				run = 0;
+				returnValue = EXIT_SUCCESS;
+				break;
+			}
+			default: {
 
-			printf("This program was developed by group A400B for first semester group project P1 2019.\n"
-				"The project is about Energy price awareness\n"
-				"Created by:\n"
-				"Martin Lindblom Hansen\n"
-				"Rune Bohnstedt\n"
-				"Kim Helstrup Pedersen\n"
-				"Micklas Skov\n"
-				"Claes Mortensen\n"
-				"Lars Christensen\n"
-				"Frederik L. Jakobsen\n\n");
-
-			state = SELECTION;
-			break;
-		}
-		case EXIT: {
-
-			run = 0;
-			returnValue = EXIT_SUCCESS;
-			break;
-		}
-		default: {
-
-			printf("%s\n", GetTextString(INVALID_SELECTION));
-			state = SELECTION;
-			break;
-		}
+				printf("%s\n", GetTextString(INVALID_SELECTION));
+				state = SELECTION;
+				break;
+			}
 		}
 	}
 	return returnValue;

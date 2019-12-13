@@ -62,51 +62,51 @@ int Devices(void) {
 	while (run) {
 		errorCode = OK;
 		switch (state) {
-		case SELECTION: {
+			case SELECTION: {
 
-			printf("%s\n%s\n", GetTextString(SELET_A_NUMBER), GetTextString(DEVICE_MENU));
-			if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
-				state = SELECTION;
-				printf("%s\n", GetErrorCodeString(errorCode));
-			}
-
-			break;
-		}
-		case REGISTER: {
-
-			if ((errorCode = RegisterDevice()) != OK) {
-				printf("%s\n", GetErrorCodeString(errorCode));
-			}
-
-			state = SELECTION;
-			break;
-		}
-		case EXISTING: {
-
-			if (deviceCounter) {
-				if (ExistingDevices() != OK) {
-					printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+				printf("%s\n%s\n", GetTextString(SELECT_A_NUMBER), GetTextString(DEVICE_MENU));
+				if ((errorCode = GetIntegerFromStdin(&state)) != OK) {
+					state = SELECTION;
+					printf("%s\n", GetErrorCodeString(errorCode));
 				}
-			} 
-			else { 
-				printf("%s\n", GetTextString(NO_DEVICES)); 
+
+				break;
 			}
+			case REGISTER: {
 
-			state = SELECTION;
-			break;
-		}
-		case BACK: {
+				if ((errorCode = RegisterDevice()) != OK) {
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
 
-			run = 0;
-			returnCode = OK;
-			break;
-		}
-		default: {
+				state = SELECTION;
+				break;
+			}
+			case EXISTING: {
 
-			state = SELECTION;
-			printf("%s\n", GetTextString(INVALID_SELECTION));
-			break;
-		}
+				if (deviceCounter) {
+					if (ExistingDevices() != OK) {
+						printf("%s\n", GetErrorCodeString(EXISTING_FAILED));
+					}	
+				} 
+				else { 
+					printf("%s\n", GetTextString(NO_DEVICES)); 
+				}
+
+				state = SELECTION;
+				break;
+			}
+			case BACK: {
+
+				run = 0;
+				returnCode = OK;
+				break;
+			}
+			default: {
+
+				state = SELECTION;
+				printf("%s\n", GetTextString(INVALID_SELECTION));
+				break;
+			}
 		}
 	}
 	free(existingDevices);
@@ -128,86 +128,86 @@ int ExistingDevices(void) {
 	while (keepAlive) {
 
 		switch (state) {
-		case SELECTION: {
+			case SELECTION: {
 
-			printf("%s\n", GetTextString(EXISTING_MENU));
-			if ((returnCode = GetIntegerFromStdin(&state)) != OK) {
+				printf("%s\n", GetTextString(EXISTING_MENU));
+				if ((returnCode = GetIntegerFromStdin(&state)) != OK) {
 
+				}
+
+				break;
 			}
+			case LISTE_ALL_DEVICES: {
 
-			break;
-		}
-		case LISTE_ALL_DEVICES: {
+				for (i = 0; i < deviceCounter; i++) {
+					printf("|Device nr: %d | Name: %s | kWh: %2.2lf|\n", i + 1, existingDevices[i].deviceName, existingDevices[i].kwh);
+				}
 
-			for (i = 0; i < deviceCounter; i++) {
-				printf("|Device nr: %d | Name: %s | kWh: %2.2lf|\n", i + 1, existingDevices[i].deviceName, existingDevices[i].kwh);
+				state = SELECTION;
+				break;
 			}
-
-			state = SELECTION;
-			break;
-		}
-		case GET_BEST_PRICE: {
-
-			if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
-				printf("%s\n", GetTextString(GET_RUN_TIME_IN_MINUTES));
-				if ((returnCode = GetIntegerFromStdin(&minToRun)) == OK) {
-					BestTime bt;
-					if ((returnCode = GetBestTime(&bt, minToRun)) == OK) {
-						printf("|Start: %s | price kWh DKK: %2.3lf | cost: %2.3lf DKK|\n", bt.timeStamp, bt.price, existingDevices[selectedDevice - 1].kwh * bt.price);
+			case GET_BEST_PRICE: {
+					
+				if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
+					printf("%s\n", GetTextString(GET_RUN_TIME_IN_MINUTES));
+					if ((returnCode = GetIntegerFromStdin(&minToRun)) == OK) {
+						BestTime bt;
+						if ((returnCode = GetBestTime(&bt, minToRun)) == OK) {
+							printf("|Start: %s | price kWh DKK: %2.3lf | cost: %2.3lf DKK|\n", bt.timeStamp, bt.price, existingDevices[selectedDevice - 1].kwh * bt.price);
+						}
 					}
 				}
-			}
 
-			if (returnCode != OK) {
-				printf("%s\n", GetErrorCodeString(returnCode));
-			}
-
-			state = SELECTION;
-			break;
-		}
-		case DELETE_A_DEVICE: {
-			if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
-
-				for (i = selectedDevice; i < deviceCounter; i++) {
-					existingDevices[i - 1] = existingDevices[i];
+				if (returnCode != OK) {
+					printf("%s\n", GetErrorCodeString(returnCode));
 				}
-				deviceCounter--;
 
-				if (deviceCounter == 0) {
-					free(existingDevices);
-				}
-				else {
-					devices* d = realloc(existingDevices, deviceCounter * sizeof(devices));
-					if (d != NULL) {
-						existingDevices = d;
-						printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
+				state = SELECTION;
+				break;
+			}
+			case DELETE_A_DEVICE: {
+				if ((returnCode = ChooseDevice(&selectedDevice)) == OK) {
+
+					for (i = selectedDevice; i < deviceCounter; i++) {
+						existingDevices[i - 1] = existingDevices[i];
+					}
+					deviceCounter--;
+
+					if (deviceCounter == 0) {
+						free(existingDevices);
 					}
 					else {
-						returnCode = ALLOCATING_MEMORY_FAILED;
+						devices* d = realloc(existingDevices, deviceCounter * sizeof(devices));
+						if (d != NULL) {
+							existingDevices = d;
+							printf("%s\n", GetTextString(SUCCESFULLY_DELETED));
+						}
+						else {
+							returnCode = ALLOCATING_MEMORY_FAILED;
+						}
 					}
+
+					SaveCfg(existingDevices, deviceCounter);
 				}
 
-				SaveCfg(existingDevices, deviceCounter);
+				if (returnCode != OK) {
+					printf("%s\n", GetTextString(returnCode));
+				}
+	
+				state = BACK;
+				break;
 			}
+			case BACK: {
 
-			if (returnCode != OK) {
-				printf("%s\n", GetTextString(returnCode));
+				keepAlive = 0;
+				break;
 			}
+			default: {
 
-			state = BACK;
-			break;
-		}
-		case BACK: {
-
-			keepAlive = 0;
-			break;
-		}
-		default: {
-
-			printf("%s\n", GetTextString(INVALID_SELECTION));
-			state = SELECTION;
-			break;
-		}
+				printf("%s\n", GetTextString(INVALID_SELECTION));
+				state = SELECTION;
+				break;
+			}
 		}
 	}
 	return returnCode;
@@ -251,65 +251,65 @@ int RegisterDevice(void) {
 	while (keepAlive) {
 
 		switch (state) {
-		case SELECTION: {
+			case SELECTION: {
 
-			printf("%s\n", GetTextString(SELECT_REGISTER));
+				printf("%s\n", GetTextString(SELECT_REGISTER));
 
-			if (scanf("%d", &state) == 0) {
-				state = SELECTION;
-				ClearStdinBuffer();
-				printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));
-			}
-
-			break;
-		}
-		case CREATE_DEVICE: {
-
-			printf("%s\n", GetTextString(ENTER_NAME_OF_DEVICE));
-
-			if ((errorCode = GetStringFromStdin(newdevice.deviceName, MAX_DEVICE_NAME)) == OK) {
-				printf("%s\n", GetTextString(ENTER_POWER_USAGE_OF_DEVICE));
-
-				if ((errorCode = GetDoubleFromStdin(&newdevice.kwh)) != OK) {
-					printf("%s\n", GetErrorCodeString(errorCode));
-
+				if (scanf("%d", &state) == 0) {
 					state = SELECTION;
+					ClearStdinBuffer();
+					printf("%s\n", GetTextString(ENTERED_VALUE_WAS_NOT_A_NUMBER));
 				}
-				else {
-					deviceCounter++;
 
-					devices* d =  realloc(existingDevices, deviceCounter * sizeof(devices));
-					if (d != NULL) {
-						existingDevices = d;
-						strcpy(existingDevices[deviceCounter - 1].deviceName, newdevice.deviceName);
-						existingDevices[deviceCounter - 1].kwh = newdevice.kwh;
-						SaveCfg(existingDevices, deviceCounter);
-						printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));//der skal være en errorcode fra SaveCfg her
+				break;
+			}
+			case CREATE_DEVICE: {
+
+				printf("%s\n", GetTextString(ENTER_NAME_OF_DEVICE));
+
+				if ((errorCode = GetStringFromStdin(newdevice.deviceName, MAX_DEVICE_NAME)) == OK) {
+					printf("%s\n", GetTextString(ENTER_POWER_USAGE_OF_DEVICE));
+
+					if ((errorCode = GetDoubleFromStdin(&newdevice.kwh)) != OK) {
+						printf("%s\n", GetErrorCodeString(errorCode));
+
+						state = SELECTION;
 					}
 					else {
-						printf("%s\n", GetErrorCodeString(ALLOCATING_MEMORY_FAILED));
+						deviceCounter++;
+
+						devices* d =  realloc(existingDevices, deviceCounter * sizeof(devices));
+						if (d != NULL) {
+							existingDevices = d;
+							strcpy(existingDevices[deviceCounter - 1].deviceName, newdevice.deviceName);
+							existingDevices[deviceCounter - 1].kwh = newdevice.kwh;
+							SaveCfg(existingDevices, deviceCounter);
+							printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));//der skal være en errorcode fra SaveCfg her
+						}
+						else {
+							printf("%s\n", GetErrorCodeString(ALLOCATING_MEMORY_FAILED));
+						}
+							
+						state = SELECTION;	
 					}
-
-					state = SELECTION;
 				}
+				else {
+					printf("%s\n", GetErrorCodeString(errorCode));
+				}
+
+				break;
 			}
-			else {
-				printf("%s\n", GetErrorCodeString(errorCode));
+			case BACK: {
+
+				keepAlive = 0;
+				break;
 			}
+			default: {
 
-			break;
-		}
-		case BACK: {
-
-			keepAlive = 0;
-			break;
-		}
-		default: {
-
-			state = SELECTION;
-			printf("%s\n", GetTextString(INVALID_SELECTION));
-			break;
-		}
+				state = SELECTION;
+				printf("%s\n", GetTextString(INVALID_SELECTION));
+				break;
+			}
 		}
 	}
 	return 0;

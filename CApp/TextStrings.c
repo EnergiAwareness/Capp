@@ -8,7 +8,7 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Please enter a number to select following:",
 	"Select option: \n1. List devices \n2. Get best price \n3. Delete a device \n9. Back",
 	"Please enter the name of your device",
-	"Please enter the KwH usage of your device",
+	"Please enter the kWh usage of your device",
 	"Enter device to use",
 	"Device could not be deleted",
 	"Device was succesfully deleted",
