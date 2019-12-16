@@ -447,7 +447,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 			}
 		}
 
-		bestTimeToStart->price = price; //convert min to hour
+		bestTimeToStart->price = price;
 		sprintf(bestTimeToStart->timeStamp, "%2d-%2d-%4d : %2d:%2d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, foundStartHour, foundStartMin);
 	}
 
