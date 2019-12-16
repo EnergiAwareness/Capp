@@ -16,7 +16,7 @@ char* stringArray[TOTAL_STRINGS ] = {
 	"Device was saved successfully",
 	"Select option: \n1. Register new device \n9. Back",
 	"Please enter two dates in the following format: 'DD:MM DD:MM' starting with the oldest date",
-	"1. Today\n2. Tomorrow\n3. Historical\n9. Back",
+	"1. Today\n2. Tomorrow\n3. History\n9. Back",
 	"1. Register a new device\n2. Select an existing device\n9. Exit to main menu",
 	"1. Price\n2. Devices\n3. About\n4. Exit program",
 	"Enter run time for the device in minutes",
