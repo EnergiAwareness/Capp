@@ -60,6 +60,7 @@ int Price(void) {
 				if ((errorCode = Historical()) != OK) {
 					printf("%s\n", GetErrorCodeString(errorCode));
 				}
+				state = SELECTION;
 			}
 			case BACK: {
 
