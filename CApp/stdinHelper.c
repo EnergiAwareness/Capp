@@ -11,7 +11,7 @@
  * --------------------
  *  Returns: Error code
  */
-int ClearStdinBuffer() {
+int ClearStdinBuffer(void) {
 	int attempts = CLEAR_ATTEMPS;
 	int returnCode = UNABLE_TO_CLEAR_STDIN;
 	int c;

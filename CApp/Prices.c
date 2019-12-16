@@ -16,9 +16,9 @@ enum states {
 };
 
 void PrintOutPriceData(_DateTimePrice* prices, int cnt);
-int Today();
-int Tomorrow();
-int Historical();
+int Today(void);
+int Tomorrow(void);
+int Historical(void);
 
 int Price(void) {
 
@@ -80,7 +80,7 @@ int Price(void) {
 	return returnCode;
 }
 
-int Today() {
+int Today(void) {
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
 	_DateTimePrice* callPrices = NULL;
@@ -95,7 +95,7 @@ int Today() {
 	return errorCode;
 }
 
-int Tomorrow() {
+int Tomorrow(void) {
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
 	_DateTimePrice* callPrices = NULL;
@@ -110,7 +110,7 @@ int Tomorrow() {
 	return errorCode;
 }
 
-int Historical() {
+int Historical(void) {
 	int startDay = 0, startMonth = 0, endDay = 0, endMonth = 0;
 	_DateTimePrice* callPrices = NULL;
 	size_t structSize = 0;
