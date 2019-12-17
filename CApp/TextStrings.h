@@ -25,6 +25,6 @@ enum Text_Strings {
 	/* 17 */ GET_RUN_TIME_IN_MINUTES,
 	/* 18 */ NO_DEVICES,
 	/* 19 */ ENTER_DEVICE_NUMBER,
-	/*inset string here*/
+	/*insert string here*/
 	/* 20 */ TOTAL_STRINGS/*MUST BE LAST!!*/
 };

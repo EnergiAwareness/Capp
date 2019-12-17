@@ -12,7 +12,7 @@ enum ReturnValues {
 	/* 7 */ UNABLE_TO_DECODE_DEVICE_CONFIG,
 	/* 8 */ ALLOCATING_MEMORY_FAILED,
 	/* 9 */ SELECTED_OUT_OF_BOUND,
-	/*inset erroes here*/
+	/*insert errors here*/
 	/* 10 */ TOTAL_RETURN_VALUES /*MUST BE LAST*/
 };
 
