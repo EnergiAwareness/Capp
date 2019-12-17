@@ -1,4 +1,4 @@
-# AAU P1 Software Solution
+# AAU P1 a400B Software Solution
 
 ## Getting Started
 
