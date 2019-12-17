@@ -8,7 +8,7 @@
  * --------------------
  *  Returns: Error code
  */
-extern int ClearStdinBuffer();
+extern int ClearStdinBuffer(void);
 
 extern int GetIntegerFromStdin(int* Variable);
 
