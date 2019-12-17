@@ -3,7 +3,7 @@
 
 extern char* GetTextString(int value);
 
-//Added new item here must also be added the char *array in the c file to work.
+/*Added new item here must also be added the char *array in the c file to work.*/
 enum Text_Strings {
 	/* 0 */ ENTERED_VALUE_WAS_NOT_A_NUMBER,
 	/* 1 */ UNKNOWN_STRING_REQUEST,
@@ -25,5 +25,6 @@ enum Text_Strings {
 	/* 17 */ GET_RUN_TIME_IN_MINUTES,
 	/* 18 */ NO_DEVICES,
 	/* 19 */ ENTER_DEVICE_NUMBER,
-	/* 19 */ TOTAL_STRINGS//MUST BE LAST!!
+	/*inset string here*/
+	/* 20 */ TOTAL_STRINGS/*MUST BE LAST!!*/
 };
