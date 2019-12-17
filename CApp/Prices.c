@@ -8,7 +8,7 @@
 #include "PriceData.h"
 
 enum states {
-	SELECTION = 0,//Must be first!
+	SELECTION = 0,/*Must be first!*/
 	TODAY = 1,
 	TOMORROW = 2,
 	HISTORICAL = 3,

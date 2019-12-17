@@ -91,7 +91,7 @@ int LoadFileToStringArray(char* _LoadedFile[], char _InputFileName[], int _Width
 	while (!feof(fp)) {
 		fgets(_LoadedFile[Index], _Width, fp);
 
-		//printf(" %s", _LoadedFile[Index]);
+		/*printf(" %s", _LoadedFile[Index]);*/
 
 		Index++;
 	}

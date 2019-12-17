@@ -1,5 +1,5 @@
 /*
-gruppe:
+* gruppe: a400B
 */
 
 #include <stdio.h>
@@ -11,7 +11,7 @@ gruppe:
 #include "Prices.h"
 
 enum states {
-	SELECTION = 0,//Must be first!
+	SELECTION = 0,/*Must be first!*/
 	PRICE = 1,
 	DEVICES = 2,
 	ABOUT = 3,

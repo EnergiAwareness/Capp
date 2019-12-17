@@ -246,7 +246,6 @@ int ChooseDevice(int* selectedDevice) {
 int RegisterDevice(void) {
 	int state = 0, keepAlive = 1, errorCode = OK;
 	devices newdevice;
-	//devices* existingDevices;
 
 	while (keepAlive) {
 
@@ -284,7 +283,7 @@ int RegisterDevice(void) {
 							strcpy(existingDevices[deviceCounter - 1].deviceName, newdevice.deviceName);
 							existingDevices[deviceCounter - 1].kwh = newdevice.kwh;
 							SaveCfg(existingDevices, deviceCounter);
-							printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));//der skal være en errorcode fra SaveCfg her
+							printf("%s\n", GetTextString(DEVICE_SAVED_SUCCESSFULLY));
 						}
 						else {
 							printf("%s\n", GetErrorCodeString(ALLOCATING_MEMORY_FAILED));
@@ -333,7 +332,7 @@ int SaveCfg(devices deviceList[], int deviceCount) {
 				strcat(device, "\n");
 
 			}
-			//printf("string: %s\n", device);
+			/*printf("string: %s\n", device);*/
 			returnCode = SaveToFile(device, strlen(device), DEVICE_FILE);
 		}
 		else {
@@ -398,25 +397,25 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 
 	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday + 1, tm.tm_mon, &hourPrices, &structSize)) == OK) {
 		for (i = tm.tm_hour; i < structSize; i++) {
-			hourPrices[i].price = hourPrices[i].price / 1000 / 60; //convert mwh to kwh then hour to minut
+			hourPrices[i].price = hourPrices[i].price / 1000 / 60; /*convert mwh to kwh then hour to minut*/
 		}
 
-		startMin = (tm.tm_min + 5) % 60; //find start minute
+		startMin = (tm.tm_min + 5) % 60; /*find start minute*/
 
 		for (i = 0; i < runTimeInMinutes; i++) {
-			//printf("Hour: %2d min: %2d\n", tm.tm_hour + ((i + startMin) / 60), (i + startMin) % 60);
+			/*printf("Hour: %2d min: %2d\n", tm.tm_hour + ((i + startMin) / 60), (i + startMin) % 60);*/
 			price += hourPrices[tm.tm_hour + ((i + startMin) / 60)].price;
 		}
 
-		//printf("Price: %2.4lf\n\n\n", price);
+		/*printf("Price: %2.4lf\n\n\n", price);*/
 		hourOffset = tm.tm_hour + runTimeInMinutes / 60;
 		minLeft = 2880 - (tm.tm_hour * 60 + startMin + runTimeInMinutes);
 		newPrice = price;
 
 		for (i = 0; i < minLeft; i++) {
 			minCalc = i + startMin;
-			//printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + (minCalc / 60), minCalc % 60,  hourOffset + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);
-			//printf("Subtract: %2.7lf, add:  %2.7lf, price: %2.7lf\n", hourPrices[tm.tm_hour + (minCalc / 60)].price, hourPrices[hourOffset + (minCalc / 60)].price, price);
+			/*printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + (minCalc / 60), minCalc % 60,  hourOffset + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);*/
+			/*printf("Subtract: %2.7lf, add:  %2.7lf, price: %2.7lf\n", hourPrices[tm.tm_hour + (minCalc / 60)].price, hourPrices[hourOffset + (minCalc / 60)].price, price);*/
 
 			newPrice -= hourPrices[tm.tm_hour + (minCalc / 60)].price;
 			newPrice += hourPrices[hourOffset + (minCalc / 60)].price;
@@ -425,7 +424,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 				foundStartMin = ((minCalc + 1) % 60);
 				foundStartHour = tm.tm_hour + ((minCalc + 1) / 60);
 				price = newPrice;
-				//printf("time: %2d:%d -  %2.4lf\n", foundStartHour, foundStartMin, price);
+				/*printf("time: %2d:%d -  %2.4lf\n", foundStartHour, foundStartMin, price);*/
 			}
 		}
 

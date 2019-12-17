@@ -16,22 +16,22 @@ int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTi
 	if ((errorCode = LoadFile("elspot-prices_2018_hourly_dkk.csv", &loadedFileArray, &fileHeight)) == OK) {
 		_DateTimePrice* builder = calloc(fileHeight, sizeof(_DateTimePrice));
 
-		//loop though though alle lines in the data
+		/*loop though though alle lines in the data*/
 		for (i = 0; i < fileHeight; i++) {
-			temp = strtok(loadedFileArray[i], delim); //gets char* to first substring.
+			temp = strtok(loadedFileArray[i], delim); /*gets char* to first substring.*/
 
-			for (x = 0; x < 6; x++) { //loop though the string to find alle substrings seperated with the specified delimiters ; and -
+			for (x = 0; x < 6; x++) { /*loop though the string to find alle substrings seperated with the specified delimiters ; and -*/
 				if (temp != NULL) {
 					data[x] = atof(temp);
 				}
 				else { 
-					break; //at the end of the string
+					break; /*at the end of the string*/
 				}
 
-				temp = strtok(NULL, delim); //move char* to next substring
+				temp = strtok(NULL, delim); /*move char* to next substring*/
 			}
 
-			//if price data is within the request timespan then put the data into builder for later use.
+			/*if price data is within the request timespan then put the data into builder for later use.*/
 			if (data[0] >= startDay && data[1] >= startMonth && data[0] <= endDay && data[1] <= endMonth) {
 				builder[count].day = data[0];
 				builder[count].month = data[1];
@@ -43,9 +43,9 @@ int GetHourPrice(int startDay, int startMonth, int endDay, int endMonth, _DateTi
 			}
 		}
 
-		*dateTimePrice = calloc(count, sizeof(_DateTimePrice)); // allocate memory for the result
+		*dateTimePrice = calloc(count, sizeof(_DateTimePrice)); /*allocate memory for the result*/
 
-		//copy the result from builder to the locating caller has pass with
+		/*copy the result from builder to the locating caller has pass with*/
 		for (i = 0; i < count; i++) {
 			(*dateTimePrice + i)->day = builder[i].day;
 			(*dateTimePrice + i)->month = builder[i].month;
