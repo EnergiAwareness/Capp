@@ -386,7 +386,7 @@ int LoadCfg(devices** deviceList, int* counter) {
 
 int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 {
-	int errorCode = UNKNOWN_ERROR, i = 0, minLeft = 0, hourOffset = 0, startMin = 0;
+	int errorCode = UNKNOWN_ERROR, i = 0, minLeft = 0, hourOffset = 0, startMin = 0, hourEnd = 0;
 	int foundStartHour = 0, foundStartMin = 0, minCalc = 0;
 	double price = 0, newPrice = 0;
 
@@ -397,32 +397,35 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 
 	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday + 1, tm.tm_mon, &hourPrices, &structSize)) == OK) {
 		for (i = tm.tm_hour; i < structSize; i++) {
-			hourPrices[i].price = hourPrices[i].price / 1000 / 60; /*convert mwh to kwh then hour to minut*/
+			hourPrices[i].price = hourPrices[i].price / 60000; /*convert mwh to kwh then hour to minut*/
 		}
 
 		startMin = (tm.tm_min + 5) % 60; /*find start minute*/
+		hourOffset = tm.tm_min + 5 >= 60 ? 1 : 0; // hour roll over
 
 		for (i = 0; i < runTimeInMinutes; i++) {
-			/*printf("Hour: %2d min: %2d\n", tm.tm_hour + ((i + startMin) / 60), (i + startMin) % 60);*/
-			price += hourPrices[tm.tm_hour + ((i + startMin) / 60)].price;
+			//printf("Hour: %2d min: %2d\n", tm.tm_hour + hourOffset + ((i + startMin) / 60), (i + startMin) % 60);
+			/*printf("Price: %2.8lf\n", hourPrices[tm.tm_hour + hourOffset + ((i + startMin) / 60)].price);*/
+			price += hourPrices[tm.tm_hour + hourOffset + ((i + startMin) / 60)].price;
 		}
 
-		/*printf("Price: %2.4lf\n\n\n", price);*/
-		hourOffset = tm.tm_hour + runTimeInMinutes / 60;
-		minLeft = 2880 - (tm.tm_hour * 60 + startMin + runTimeInMinutes);
+		//printf("Price: %2.5lf\n\n\n", price);
+		hourEnd = tm.tm_hour + hourOffset + runTimeInMinutes / 60;
+		minLeft = 2880 - ((tm.tm_hour + hourOffset) * 60 + runTimeInMinutes);
 		newPrice = price;
-
+		minCalc = startMin;
 		for (i = 0; i < minLeft; i++) {
-			minCalc = i + startMin;
-			/*printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + (minCalc / 60), minCalc % 60,  hourOffset + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);*/
+			minCalc =+ i;
+			//printf("minClac: %d\n", i);
+			//printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + hourOffset + ((minCalc) / 60), minCalc % 60, hourEnd + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);
 			/*printf("Subtract: %2.7lf, add:  %2.7lf, price: %2.7lf\n", hourPrices[tm.tm_hour + (minCalc / 60)].price, hourPrices[hourOffset + (minCalc / 60)].price, price);*/
 
-			newPrice -= hourPrices[tm.tm_hour + (minCalc / 60)].price;
-			newPrice += hourPrices[hourOffset + (minCalc / 60)].price;
+			newPrice -= hourPrices[tm.tm_hour + hourOffset + (minCalc / 60)].price;
+			newPrice += hourPrices[hourEnd + (minCalc  / 60)].price;
 
 			if (newPrice < price) {
 				foundStartMin = ((minCalc + 1) % 60);
-				foundStartHour = tm.tm_hour + ((minCalc + 1) / 60);
+				foundStartHour = tm.tm_hour + hourOffset + ((minCalc + 1) / 60);
 				price = newPrice;
 				/*printf("time: %2d:%d -  %2.4lf\n", foundStartHour, foundStartMin, price);*/
 			}
@@ -445,9 +448,10 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes)
 				tm.tm_mday++;
 			}
 		}
-
+		printf("price: %2.7lf\n", price);
 		bestTimeToStart->price = price;
 		sprintf(bestTimeToStart->timeStamp, "%2d-%2d-%4d : %2d:%2d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, foundStartHour, foundStartMin);
+		free(hourPrices);
 	}
 
 	return errorCode;
