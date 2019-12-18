@@ -131,6 +131,6 @@ void PrintOutPriceData(_DateTimePrice* prices, int cnt) {
 	int i;
 
 	for (i = 0; i < cnt; i++) {
-		printf("|Date: %2d-%2d-%4d | Hour: %2d-%2d | Price:%7.3lf DKK / KwH|\n", prices[i].day, prices[i].month, prices[i].year, prices[i].hourStart, prices[i].hourEnd, prices[i].price/1000);
+		printf("|Date: %2d-%2d-%4d | Hour: %2d-%2d | Price: %0.2lf DKK / KwH|\n", prices[i].day, prices[i].month, prices[i].year, prices[i].hourStart, prices[i].hourEnd, prices[i].price/1000);
 	}
 }
