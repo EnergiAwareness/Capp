@@ -394,7 +394,7 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes){
 	_DateTimePrice* hourPrices = NULL;
 	size_t structSize = 0;
 
-	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon, tm.tm_mday + 1, tm.tm_mon, &hourPrices, &structSize)) == OK) {
+	if ((errorCode = GetHourPrice(tm.tm_mday, tm.tm_mon+1, tm.tm_mday + 1, tm.tm_mon+1, &hourPrices, &structSize)) == OK) {
 		for (i = tm.tm_hour; i < structSize; i++) {
 			hourPrices[i].price = hourPrices[i].price / 60000; /*convert mwh to kwh then hour to minut*/
 		}
@@ -403,8 +403,8 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes){
 		hourOffset = tm.tm_min + 5 >= 60 ? 1 : 0; // hour roll over
 
 		for (i = 0; i < runTimeInMinutes; i++) {
-			//printf("Hour: %2d min: %2d\n", tm.tm_hour + hourOffset + ((i + startMin) / 60), (i + startMin) % 60);
-			/*printf("Price: %2.8lf\n", hourPrices[tm.tm_hour + hourOffset + ((i + startMin) / 60)].price);*/
+			/*printf("Hour: %2d min: %2d\n", tm.tm_hour + hourOffset + ((i + startMin) / 60), (i + startMin) % 60);
+			printf("Price: %2.8lf\n", hourPrices[tm.tm_hour + hourOffset + ((i + startMin) / 60)].price);*/
 			price += hourPrices[tm.tm_hour + hourOffset + ((i + startMin) / 60)].price;
 		}
 
@@ -415,8 +415,8 @@ int GetBestTime(BestTime* bestTimeToStart, int runTimeInMinutes){
 		minCalc = startMin;
 		for (i = 0; i < minLeft; i++) {
 			minCalc =+ i;
-			//printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + hourOffset + ((minCalc) / 60), minCalc % 60, hourEnd + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);
-			/*printf("Subtract: %2.7lf, add:  %2.7lf, price: %2.7lf\n", hourPrices[tm.tm_hour + (minCalc / 60)].price, hourPrices[hourOffset + (minCalc / 60)].price, price);*/
+			/*printf("Start: %2d:%2d - end: %2d:%2d\n", tm.tm_hour + hourOffset + ((minCalc) / 60), minCalc % 60, hourEnd + (minCalc / 60), (minCalc + runTimeInMinutes) % 60);
+			printf("Subtract: %2.7lf, add:  %2.7lf, price: %2.7lf\n", hourPrices[tm.tm_hour + (minCalc / 60)].price, hourPrices[hourOffset + (minCalc / 60)].price, price);*/
 
 			newPrice -= hourPrices[tm.tm_hour + hourOffset + (minCalc / 60)].price;
 			newPrice += hourPrices[hourEnd + (minCalc  / 60)].price;
